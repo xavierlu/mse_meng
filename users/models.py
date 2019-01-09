@@ -1,13 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
 
-class User(models.Model):
-    first_name = models.CharField("First Name", max_length=255)
-    last_name = models.CharField("Last Name", max_length=255)
-    email = models.EmailField()
-    phone = models.CharField(max_length=255)
-    address = models.TextField(blank=True, null=True)
-    description = models.TextField(blank=True, null=True)
-    createdAt = models.DateTimeField("Created At", auto_now_add=True)
+class User(AbstractUser):
+    is_student = models.BooleanField()
+    is_company = models.BooleanField()
 
     def __str__(self):
-        return self.first_name
+        return self.username
+
+class Student(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user.username
