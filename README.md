@@ -1,5 +1,5 @@
 # mse_meng
 
-A matchmaking web app for Cornell's Master of Engineering program in Materials Science & Engineering department. 
+A web app that matches incoming graduate students with projects uploaded by varies companies for the Materials Science & Engineering department. 
 
 Uses Django, Django REST framework, React, and Redux.
