@@ -1,5 +1,5 @@
-# MSE_M.Eng.
+# MS&E_M.Eng.
 
-A web app that matches incoming master's student with projects uploaded by varies companies for the Materials Science & Engineering department. 
+A web app that matches incoming Master of Engineering (M.Eng.) student with projects uploaded by varies companies for the Materials Science & Engineering department. 
 
 Uses Django, Django REST framework, React, and Redux.
