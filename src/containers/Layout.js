@@ -3,6 +3,7 @@ import { Layout, Menu, Breadcrumb } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
+import Logo from "./cornell-logo-black";
 
 const { Header, Content, Footer } = Layout;
 
@@ -10,13 +11,13 @@ class CustomLayout extends React.Component {
   render() {
     return (
       <Layout className="layout">
-        <Header>
-          <div className="logo" />
+        <Header style={{ height: "61.7px", backgroundColor: "#B31B1B" }}>
+          <Logo className="logo" />
           <Menu
             theme="dark"
             mode="horizontal"
             defaultSelectedKeys={["2"]}
-            style={{ lineHeight: "64px" }}
+            style={{ lineHeight: "61.7px", backgroundColor: "#B31B1B" }}
           >
             {this.props.isAuthenticated ? (
               <Menu.Item key="2" onClick={this.props.logout}>
