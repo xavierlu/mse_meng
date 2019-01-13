@@ -14,13 +14,14 @@ class CustomLayout extends React.Component {
   render() {
     return (
       <Layout className="layout">
-        <Header style={{ height: "113px", backgroundColor: "#F7F7F7" }}>
+        <Header style={{ height: "123px", backgroundColor: "#F7F7F7" }}>
           <img
             src={CORNELL_LOGO_RED}
+            alt="Cornell Logo"
             height="73px"
             style={{
-              marginTop: 20,
-              marginBottom: 20,
+              marginTop: 30,
+              marginBottom: 30,
               marginLeft: 10,
               marginRight: 7
             }}
@@ -28,9 +29,10 @@ class CustomLayout extends React.Component {
           <img
             src={CE_MSE_LOGO}
             height="73px"
+            alt="MS&E Logo"
             style={{
-              marginTop: 25,
-              marginBottom: 15,
+              marginTop: 35,
+              marginBottom: 25,
               marginLeft: 7,
               marginRight: 10
             }}
@@ -53,25 +55,15 @@ class CustomLayout extends React.Component {
                 defaultOpenKeys={["sub1"]}
                 style={{ height: "100%" }}
               >
-                <SubMenu
-                  key="sub1"
-                  title={
-                    <span>
-                      <Icon type="user" />
-                      subnav 1
-                    </span>
-                  }
-                >
-                  {this.props.isAuthenticated ? (
-                    <Menu.Item key="2" onClick={this.props.logout}>
-                      Logout
-                    </Menu.Item>
-                  ) : (
-                    <Menu.Item key="2">
-                      <Link to="/login">Login</Link>
-                    </Menu.Item>
-                  )}
-                </SubMenu>
+                {this.props.isAuthenticated ? (
+                  <Menu.Item key="2" onClick={this.props.logout}>
+                    Logout
+                  </Menu.Item>
+                ) : (
+                  <Menu.Item key="2">
+                    <Link to="/login">Login</Link>
+                  </Menu.Item>
+                )}
                 <SubMenu
                   key="sub2"
                   title={
