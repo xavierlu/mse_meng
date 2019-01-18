@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Spin } from "antd";
+import { Form, Icon, Input, Button, Spin, Row, Col } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
@@ -26,60 +26,71 @@ class NormalLoginForm extends React.Component {
 
     const { getFieldDecorator } = this.props.form;
     return (
-      <div>
-        {errorMessage}
-        {this.props.loading ? (
-          <Spin indicator={antIcon} />
-        ) : (
-          <Form onSubmit={this.handleSubmit} className="login-form">
-            <FormItem>
-              {getFieldDecorator("userName", {
-                rules: [
-                  { required: true, message: "Please input your username!" }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Username"
-                />
-              )}
-            </FormItem>
+      <Row gutter={40} type="flex" align="middle">
+        <Col span={12} type="flex" align="middle">
+          Cornell Student
+          <br />
+          <br />
+          <Button type="danger">NetID Login</Button>
+        </Col>
+        <Col span={12}>
+          All others use the Visitor Login.
+          <br /> <br />
+          {errorMessage}
+          {this.props.loading ? (
+            <Spin indicator={antIcon} />
+          ) : (
+            <Form onSubmit={this.handleSubmit} className="login-form">
+              <FormItem>
+                {getFieldDecorator("userName", {
+                  rules: [
+                    { required: true, message: "Please input your username!" }
+                  ]
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    placeholder="Username"
+                  />
+                )}
+              </FormItem>
+              <FormItem>
+                {getFieldDecorator("password", {
+                  rules: [
+                    { required: true, message: "Please input your Password!" }
+                  ]
+                })(
+                  <Input
+                    prefix={
+                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    type="password"
+                    placeholder="Password"
+                  />
+                )}
+              </FormItem>
 
-            <FormItem>
-              {getFieldDecorator("password", {
-                rules: [
-                  { required: true, message: "Please input your Password!" }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  type="password"
-                  placeholder="Password"
-                />
-              )}
-            </FormItem>
-
-            <FormItem>
-              <Button
-                type="primary"
-                htmlType="submit"
-                style={{ marginRight: "10px" }}
-              >
-                Login
-              </Button>
-              Or
-              <NavLink style={{ marginRight: "10px" }} to="/signup/">
-                {" "}
-                signup
-              </NavLink>
-            </FormItem>
-          </Form>
-        )}
-      </div>
+              <FormItem>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  style={{ marginRight: "12px" }}
+                >
+                  Login
+                </Button>
+                Or
+                <NavLink
+                  style={{ marginLeft: "2px", marginRight: "10px" }}
+                  to="/signup/"
+                >
+                  Signup
+                </NavLink>
+              </FormItem>
+            </Form>
+          )}
+        </Col>
+      </Row>
     );
   }
 }

@@ -3,8 +3,8 @@ import { Layout, Menu, Breadcrumb, Icon } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
-import CE_MSE_LOGO from "./CE_MSE.png";
-import CORNELL_LOGO_RED from "./cuseal_full_red240.png";
+import CE_MSE_LOGO from "./assets/CE_MSE.png";
+import CORNELL_LOGO_RED from "./assets/cuseal_full_red240.png";
 
 const { SubMenu } = Menu;
 
@@ -23,7 +23,7 @@ class CustomLayout extends React.Component {
               marginTop: 30,
               marginBottom: 30,
               marginLeft: 10,
-              marginRight: 7
+              marginRight: 10
             }}
           />
           <img
@@ -33,7 +33,7 @@ class CustomLayout extends React.Component {
             style={{
               marginTop: 35,
               marginBottom: 25,
-              marginLeft: 7,
+              marginLeft: 10,
               marginRight: 10
             }}
           />
@@ -57,10 +57,13 @@ class CustomLayout extends React.Component {
               >
                 {this.props.isAuthenticated ? (
                   <Menu.Item key="2" onClick={this.props.logout}>
-                    Logout
+                    <Icon type="logout" />
+                    <span> Logout </span>
                   </Menu.Item>
                 ) : (
                   <Menu.Item key="2">
+                    <Icon type="login" />
+                    <span> Login </span>
                     <Link to="/login">Login</Link>
                   </Menu.Item>
                 )}
@@ -80,9 +83,12 @@ class CustomLayout extends React.Component {
                 </SubMenu>
               </Menu>
             </Sider>
-            <div style={{ background: "#fff", padding: 24, minHeight: 280 }}>
+
+            <Content
+              style={{ background: "#fff", padding: "0 24px", minHeight: 280 }}
+            >
               {this.props.children}
-            </div>
+            </Content>
           </Layout>
         </Content>
 
