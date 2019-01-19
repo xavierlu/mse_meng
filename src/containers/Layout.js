@@ -39,14 +39,6 @@ class CustomLayout extends React.Component {
           />
         </Header>
         <Content style={{ padding: "0 50px", backgroundColor: "#F7F7F7" }}>
-          <Breadcrumb style={{ margin: "16px 0" }}>
-            <Breadcrumb.Item>
-              <Link to="/">Home</Link>
-            </Breadcrumb.Item>
-            <Breadcrumb.Item>
-              <Link to={`/profiles/${this.props.userId}`}>Profile</Link>
-            </Breadcrumb.Item>
-          </Breadcrumb>
           <Layout style={{ padding: "24px 0", background: "#fff" }}>
             <Sider width={200} style={{ background: "#fff" }}>
               <Menu
