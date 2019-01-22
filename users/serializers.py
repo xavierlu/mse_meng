@@ -5,10 +5,12 @@ from rest_framework.authtoken.models import Token
 
 from .models import User
 
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('email', 'username', 'password', 'is_student', 'is_company')
+
 
 class CustomRegisterSerializer(RegisterSerializer):
     is_student = serializers.BooleanField()
@@ -21,7 +23,7 @@ class CustomRegisterSerializer(RegisterSerializer):
     def get_cleaned_data(self):
         return {
             'username': self.validated_data.get('username', ''),
-            'password1': self.validated_data.get('password1', ''),            
+            'password1': self.validated_data.get('password1', ''),
             'password2': self.validated_data.get('password2', ''),
             'email': self.validated_data.get('email', ''),
             'is_student': self.validated_data.get('is_student', ''),
@@ -32,11 +34,12 @@ class CustomRegisterSerializer(RegisterSerializer):
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
-        user.is_student = self.cleaned_data.get('is_student')        
+        user.is_student = self.cleaned_data.get('is_student')
         user.is_company = self.cleaned_data.get('is_company')
         user.save()
         adapter.save_user(request, user, self)
         return user
+
 
 class TokenSerializer(serializers.ModelSerializer):
     user_type = serializers.SerializerMethodField()
@@ -55,4 +58,3 @@ class TokenSerializer(serializers.ModelSerializer):
             'is_student': is_student,
             'is_company': is_company
         }
-
