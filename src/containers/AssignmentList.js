@@ -1,5 +1,7 @@
 import React from "react";
+import { connect } from "react-redux";
 import { List, Avatar, Button, Skeleton, Icon } from "antd";
+import * as actions from "../store/actions/assignments";
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
@@ -68,4 +70,20 @@ class AssignmentList extends React.PureComponent {
   }
 }
 
-export default AssignmentList;
+const mapStateToProps = state => {
+  return {
+    token: state.auth.token,
+    assignments: state.assignments.assignments
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getAssignments: token => dispatch(actions.getAssignments(token))
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AssignmentList);

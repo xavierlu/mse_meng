@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { Icon, Layout, Row, Col } from "antd";
 
-const { Header, Content, Footer } = Layout;
+const { Header, Footer, Content } = Layout;
 
 class Profile extends React.PureComponent {
   render() {
