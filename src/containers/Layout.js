@@ -1,14 +1,16 @@
 import React from "react";
-import { Layout, Menu, Breadcrumb, Icon } from "antd";
+import { Layout, Menu, Icon, message } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import CE_MSE_LOGO from "./assets/CE_MSE.png";
 import CORNELL_LOGO_RED from "./assets/cuseal_full_red240.png";
 
-const { SubMenu } = Menu;
-
 const { Header, Content, Footer, Sider } = Layout;
+
+const info = () => {
+  message.success("Successfully logged out");
+};
 
 class CustomLayout extends React.Component {
   render() {
@@ -59,20 +61,11 @@ class CustomLayout extends React.Component {
                     <Link to="/login">Login</Link>
                   </Menu.Item>
                 )}
-                <SubMenu
-                  key="sub2"
-                  title={
-                    <span>
-                      <Icon type="laptop" />
-                      subnav 2
-                    </span>
-                  }
-                >
-                  <Menu.Item key="5">option5</Menu.Item>
-                  <Menu.Item key="6">option6</Menu.Item>
-                  <Menu.Item key="7">option7</Menu.Item>
-                  <Menu.Item key="8">option8</Menu.Item>
-                </SubMenu>
+                <Menu.Item key="3">
+                  <Icon type="idcard" />
+                  <span> Profile </span>
+                  <Link to="/profile/">Profile</Link>
+                </Menu.Item>
               </Menu>
             </Sider>
 
