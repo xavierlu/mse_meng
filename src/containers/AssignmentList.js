@@ -52,7 +52,7 @@ class AssignmentList extends React.PureComponent {
     return (
       <Hoc>
         {this.props.token === undefined || this.props.token === null ? (
-          <div>please login in first</div>
+          <Hoc>please login first</Hoc>
         ) : (
           <Hoc>
             {this.props.loading ? (

@@ -50,15 +50,24 @@ class CustomLayout extends React.Component {
                 style={{ height: "100%" }}
               >
                 <Menu.Item key="/">
-                  <Icon type="appstore" />
-                  <span> Projects </span>
-                  <Link to="/">Projects</Link>
+                  {this.props.isAuthenticated ? (
+                    <Icon type="appstore" />
+                  ) : (
+                    <Icon type="smile" />
+                  )}
+
+                  <span>
+                    {this.props.isAuthenticated ? "Project" : "Welcome"}
+                  </span>
+                  <Link to="/" />
                 </Menu.Item>
-                <Menu.Item key="/profile/">
-                  <Icon type="user" />
-                  <span> Profile </span>
-                  <Link to="/profile/">Profile</Link>
-                </Menu.Item>
+                {this.props.isAuthenticated ? (
+                  <Menu.Item key="/profile/">
+                    <Icon type="user" />
+                    <span> Profile </span>
+                    <Link to="/profile/" />
+                  </Menu.Item>
+                ) : null}
                 {this.props.isAuthenticated ? (
                   <Menu.Item key="/login" onClick={this.props.logout}>
                     <Icon type="logout" />
@@ -68,7 +77,7 @@ class CustomLayout extends React.Component {
                   <Menu.Item key="/login">
                     <Icon type="login" />
                     <span> Login </span>
-                    <Link to="/login">Login</Link>
+                    <Link to="/login" />
                   </Menu.Item>
                 )}
               </Menu>
