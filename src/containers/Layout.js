@@ -45,27 +45,32 @@ class CustomLayout extends React.Component {
             <Sider width={200} style={{ background: "#fff" }}>
               <Menu
                 mode="inline"
-                defaultSelectedKeys={["2"]}
                 defaultOpenKeys={["sub1"]}
+                selectedKeys={[this.props.location.pathname]}
                 style={{ height: "100%" }}
               >
+                <Menu.Item key="/">
+                  <Icon type="appstore" />
+                  <span> Projects </span>
+                  <Link to="/">Projects</Link>
+                </Menu.Item>
+                <Menu.Item key="/profile/">
+                  <Icon type="user" />
+                  <span> Profile </span>
+                  <Link to="/profile/">Profile</Link>
+                </Menu.Item>
                 {this.props.isAuthenticated ? (
-                  <Menu.Item key="2" onClick={this.props.logout}>
+                  <Menu.Item key="/login" onClick={this.props.logout}>
                     <Icon type="logout" />
                     <span> Logout </span>
                   </Menu.Item>
                 ) : (
-                  <Menu.Item key="2">
+                  <Menu.Item key="/login">
                     <Icon type="login" />
                     <span> Login </span>
                     <Link to="/login">Login</Link>
                   </Menu.Item>
                 )}
-                <Menu.Item key="3">
-                  <Icon type="idcard" />
-                  <span> Profile </span>
-                  <Link to="/profile/">Profile</Link>
-                </Menu.Item>
               </Menu>
             </Sider>
 

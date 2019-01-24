@@ -1,7 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { List, Avatar, Button, Skeleton, Icon } from "antd";
 import * as actions from "../store/actions/assignments";
+import Hoc from "../hoc/hoc"; // higher order components
 
 const listData = [];
 for (let i = 0; i < 23; i++) {
@@ -24,48 +26,54 @@ const IconText = ({ type, text }) => (
 );
 
 class AssignmentList extends React.PureComponent {
+  componentDidMount() {
+    if (this.props.token !== undefined && this.props.token !== null) {
+      this.props.getAssignments(this.props.token);
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.token !== this.props.token) {
+      if (newProps.token !== undefined && newProps.token !== null) {
+        this.props.getAssignments(newProps.token);
+      }
+    }
+  }
+
+  renderItem(item) {
+    return (
+      <Link to="/assignments/1">
+        <List.Item>{item.title}</List.Item>
+      </Link>
+    );
+  }
+
   render() {
     return (
-      <List
-        itemLayout="vertical"
-        size="large"
-        pagination={{
-          onChange: page => {
-            console.log(page);
-          },
-          pageSize: 3
-        }}
-        dataSource={listData}
-        footer={
-          <div>
-            <b>ant design</b> footer part
-          </div>
-        }
-        renderItem={item => (
-          <List.Item
-            key={item.title}
-            actions={[
-              <IconText type="star-o" text="156" />,
-              <IconText type="like-o" text="156" />,
-              <IconText type="message" text="2" />
-            ]}
-            extra={
-              <img
-                width={272}
-                alt="logo"
-                src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+      <Hoc>
+        {this.props.token === undefined || this.props.token === null ? (
+          <div>please login in first</div>
+        ) : (
+          <Hoc>
+            {this.props.loading ? (
+              <Skeleton active />
+            ) : (
+              <List
+                itemLayout="vertical"
+                size="large"
+                pagination={{
+                  onChange: page => {
+                    console.log(page);
+                  },
+                  pageSize: 3
+                }}
+                dataSource={this.props.assignments}
+                renderItem={item => this.renderItem(item)}
               />
-            }
-          >
-            <List.Item.Meta
-              avatar={<Avatar src={item.avatar} />}
-              title={<a href={item.href}>{item.title}</a>}
-              description={item.description}
-            />
-            {item.content}
-          </List.Item>
+            )}
+          </Hoc>
         )}
-      />
+      </Hoc>
     );
   }
 }
@@ -73,7 +81,8 @@ class AssignmentList extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    assignments: state.assignments.assignments
+    assignments: state.assignments.assignments,
+    loading: state.assignments.loading
   };
 };
 
