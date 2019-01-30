@@ -17,8 +17,7 @@ class RegistrationForm extends React.Component {
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
         let is_student = false;
-        if (values.userType === 'student')
-          is_student = true;
+        if (values.userType === "student") is_student = true;
         this.props.onAuth(
           values.userName,
           values.email,
@@ -131,18 +130,17 @@ class RegistrationForm extends React.Component {
         </FormItem>
 
         <FormItem>
-        {getFieldDecorator("userType", {
+          {getFieldDecorator("userType", {
             rules: [
               {
                 required: true,
                 message: "Please select a user"
-              },
+              }
             ]
           })(
             <Select placeholder="Please select a type">
               <Option value="student">Student</Option>
               <Option value="company">Company</Option>
-
             </Select>
           )}
         </FormItem>
@@ -157,7 +155,6 @@ class RegistrationForm extends React.Component {
           </Button>
           Or
           <NavLink style={{ marginRight: "10px" }} to="/login/">
-            {" "}
             login
           </NavLink>
         </FormItem>
@@ -178,7 +175,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     onAuth: (username, email, password1, password2, is_student) =>
-      dispatch(actions.authSignup(username, email, password1, password2, is_student))
+      dispatch(
+        actions.authSignup(username, email, password1, password2, is_student)
+      )
   };
 };
 

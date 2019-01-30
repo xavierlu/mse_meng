@@ -1,10 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Icon, Layout, Row, Col } from "antd";
+import { Row, Col } from "antd";
 
 import Hoc from "../hoc/hoc";
-
-const { Header, Footer, Content } = Layout;
 
 class Profile extends React.PureComponent {
   render() {
@@ -16,10 +14,10 @@ class Profile extends React.PureComponent {
           <div>
             <Row>
               <Col span={18} push={6}>
-                col-18 col-push-6
+                col-18 col-push-6 {this.props.username}
               </Col>
               <Col span={6} pull={18}>
-                col-6 col-pull-18
+                {this.props.email}
               </Col>
             </Row>
           </div>
@@ -33,6 +31,7 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     username: state.auth.username,
+    email: state.auth.token,
     isAuthenticated: state.auth.token !== null
   };
 };

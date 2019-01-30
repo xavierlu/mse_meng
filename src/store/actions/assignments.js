@@ -81,3 +81,44 @@ export const getAssignmentDetail = (token, id) => {
       });
   };
 };
+
+export const postStart = () => {
+  return {
+    type: actionTypes.POST_START
+  };
+};
+
+export const postSuccess = assignment => {
+  return {
+    type: actionTypes.POST_SUCCESS,
+    assignment
+  };
+};
+
+export const postFail = error => {
+  return {
+    type: actionTypes.POST_FAIL,
+    error: error
+  };
+};
+
+export const postProject = (token, project) => {
+  return dispatch => {
+    console.log("start");
+    dispatch(postStart());
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`
+    };
+
+    axios
+      .post(`http://127.0.0.1:8000/assignments/`, project)
+      .then(res => {
+        console.log("success");
+        dispatch(postSuccess(project));
+      })
+      .catch(err => {
+        dispatch(postFail(err));
+      });
+  };
+};

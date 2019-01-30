@@ -68,6 +68,13 @@ class CustomLayout extends React.Component {
                     <Link to="/profile/" />
                   </Menu.Item>
                 ) : null}
+                {this.props.isAuthenticated && this.props.is_company ? (
+                  <Menu.Item key="/post/">
+                    <Icon type="form" />
+                    <span> Post </span>
+                    <Link to="/post/" />
+                  </Menu.Item>
+                ) : null}
                 {this.props.isAuthenticated ? (
                   <Menu.Item key="/login" onClick={this.props.logout}>
                     <Icon type="logout" />
@@ -99,7 +106,9 @@ class CustomLayout extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    userId: state.auth.userId
+    userId: state.auth.userId,
+    token: state.auth.token,
+    is_company: state.auth.is_company
   };
 };
 

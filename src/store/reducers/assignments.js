@@ -52,6 +52,27 @@ export const getAssignmentDetailFail = (state, action) => {
   });
 };
 
+export const postStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true
+  });
+};
+
+export const postSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false
+  });
+};
+
+export const postFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_ASSIGNMENT_LIST_START:
@@ -66,6 +87,12 @@ const reducer = (state = initialState, action) => {
       return getAssignmentDetailSuccess(state, action);
     case actionTypes.GET_ASSIGNMENT_DETAIL_FAIL:
       return getAssignmentDetailFail(state, action);
+    case actionTypes.POST_START:
+      return postStart(state, action);
+    case actionTypes.POST_SUCCESS:
+      return postSuccess(state, action);
+    case actionTypes.POST_FAIL:
+      return postFail(state, action);
     default:
       return state;
   }
