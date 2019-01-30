@@ -67,6 +67,7 @@ class PostForm extends React.Component {
           title: values.nickname
         };
         this.props.postProject(this.props.token, project);
+        this.props.history.push("/");
       }
     });
   };
