@@ -4,17 +4,17 @@ from rest_framework.status import (
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST
 )
-from .models import Assignment
-from .serializers import AssignmentSerializer
+from .models import Post
+from .serializers import PostSerializer
 
 
-class AssignmentViewSet(viewsets.ModelViewSet):
-    serializer_class = AssignmentSerializer
-    queryset = Assignment.objects.all()
+class PostViewSet(viewsets.ModelViewSet):
+    serializer_class = PostSerializer
+    queryset = Post.objects.all()
 
     def create(self, request):
-        serializer = AssignmentSerializer(data=request.data)
-        assignment = serializer.create(request)
-        if assignment:
+        serializer = PostSerializer(data=request.data)
+        post = serializer.create(request)
+        if post:
             return Response(status=HTTP_201_CREATED)
         return Response(status=HTTP_400_BAD_REQUEST)

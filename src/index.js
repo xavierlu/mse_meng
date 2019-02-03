@@ -7,13 +7,13 @@ import { Provider } from "react-redux";
 import thunk from "redux-thunk";
 
 import authReducer from "./store/reducers/auth";
-import assignmentReducer from "./store/reducers/assignments";
+import postReducer from "./store/reducers/posts";
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   auth: authReducer,
-  assignments: assignmentReducer
+  posts: postReducer
 });
 
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));

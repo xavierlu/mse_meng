@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
-from api.views import AssignmentViewSet
+from api.views import PostViewSet
 
 router = DefaultRouter()
-router.register(r'', AssignmentViewSet, base_name='assignment')
+router.register(r'', PostViewSet, base_name='post')
 urlpatterns = router.urls

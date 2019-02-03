@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { List, Avatar, Button, Skeleton, Icon } from "antd";
-import * as actions from "../store/actions/assignments";
+import { List, Skeleton, Icon } from "antd";
+import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
 const listData = [];
@@ -25,24 +25,24 @@ const IconText = ({ type, text }) => (
   </span>
 );
 
-class AssignmentList extends React.PureComponent {
+class PostList extends React.PureComponent {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
-      this.props.getAssignments(this.props.token);
+      this.props.getPosts(this.props.token);
     }
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
-        this.props.getAssignments(newProps.token);
+        this.props.getPosts(newProps.token);
       }
     }
   }
 
   renderItem(item) {
     return (
-      <Link to={`/assignments/${item.id}`}>
+      <Link to={`/posts/${item.id}`}>
         <List.Item>{item.title}</List.Item>
       </Link>
     );
@@ -67,7 +67,7 @@ class AssignmentList extends React.PureComponent {
                   },
                   pageSize: 3
                 }}
-                dataSource={this.props.assignments}
+                dataSource={this.props.posts}
                 renderItem={item => this.renderItem(item)}
               />
             )}
@@ -81,18 +81,18 @@ class AssignmentList extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    assignments: state.assignments.assignments,
-    loading: state.assignments.loading
+    posts: state.posts.posts,
+    loading: state.posts.loading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAssignments: token => dispatch(actions.getAssignments(token))
+    getPosts: token => dispatch(actions.getPosts(token))
   };
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AssignmentList);
+)(PostList);

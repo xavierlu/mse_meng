@@ -1,15 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, Button } from "antd";
-import { getAssignmentDetail } from "../store/actions/assignments";
+import { getPostDetail } from "../store/actions/posts";
 import { Link, withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
 
-class AssignmentDetail extends React.Component {
+class PostDetail extends React.Component {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
-      this.props.getAssignmentDetail(
+      this.props.getPostDetail(
         this.props.token,
         this.props.match.params.id
       );
@@ -19,7 +19,7 @@ class AssignmentDetail extends React.Component {
   componentWillReceiveProps(newProps) {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
-        this.props.getAssignmentDetail(
+        this.props.getPostDetail(
           newProps.token,
           this.props.match.params.id
         );
@@ -27,10 +27,10 @@ class AssignmentDetail extends React.Component {
     }
   }
   render() {
-    const { title } = this.props.currentAssignment;
+    const { title } = this.props.currentPost;
     return (
       <Hoc>
-        {Object.keys(this.props.currentAssignment).length > 0 ? (
+        {Object.keys(this.props.currentPost).length > 0 ? (
           <Card
             title={title}
             extra={
@@ -52,14 +52,14 @@ class AssignmentDetail extends React.Component {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
-    currentAssignment: state.assignments.currentAssignment,
-    loading: state.assignments.loading
+    currentPost: state.posts.currentPost,
+    loading: state.posts.loading
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAssignmentDetail: (token, id) => dispatch(getAssignmentDetail(token, id))
+    getPostDetail: (token, id) => dispatch(getPostDetail(token, id))
   };
 };
 
@@ -67,5 +67,5 @@ export default withRouter(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )(AssignmentDetail)
+  )(PostDetail)
 );
