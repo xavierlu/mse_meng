@@ -9,7 +9,8 @@ import {
   Select,
   Checkbox,
   Button,
-  AutoComplete
+  AutoComplete,
+  message
 } from "antd";
 
 import { postProject } from "../store/actions/posts";
@@ -67,7 +68,13 @@ class PostForm extends React.Component {
           title: values.nickname
         };
         this.props.postProject(this.props.token, project);
-        this.props.history.push("/");
+        message.loading("Uploading", 2, () =>
+          message.success(
+            "Successfully posted",
+            2,
+            this.props.history.push("/")
+          )
+        );
       }
     });
   };

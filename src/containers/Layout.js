@@ -8,10 +8,6 @@ import CORNELL_LOGO_RED from "./assets/cuseal_full_red240.png";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-const info = () => {
-  message.success("Successfully logged out");
-};
-
 class CustomLayout extends React.Component {
   render() {
     return (
@@ -79,6 +75,7 @@ class CustomLayout extends React.Component {
                   <Menu.Item key="/login" onClick={this.props.logout}>
                     <Icon type="logout" />
                     <span> Logout </span>
+                    <Link to="/" />
                   </Menu.Item>
                 ) : (
                   <Menu.Item key="/login">

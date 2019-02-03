@@ -65,7 +65,7 @@ class PostList extends React.PureComponent {
                   onChange: page => {
                     console.log(page);
                   },
-                  pageSize: 3
+                  pageSize: 8
                 }}
                 dataSource={this.props.posts}
                 renderItem={item => this.renderItem(item)}

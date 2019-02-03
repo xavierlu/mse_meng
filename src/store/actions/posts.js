@@ -114,7 +114,6 @@ export const postProject = (token, project) => {
     axios
       .post(`http://127.0.0.1:8000/posts/`, project)
       .then(res => {
-        console.log("success");
         dispatch(postSuccess(project));
       })
       .catch(err => {

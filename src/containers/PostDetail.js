@@ -28,6 +28,7 @@ class PostDetail extends React.Component {
   }
   render() {
     const { title } = this.props.currentPost;
+    console.log(this.props.currentPost);
     return (
       <Hoc>
         {Object.keys(this.props.currentPost).length > 0 ? (
