@@ -18,6 +18,10 @@ class PostSerializer(serializers.ModelSerializer):
         company = User.objects.get(username=data['company'])
         post.company = company
         post.title = data['title']
+        post.abstract = data['abstract']
+        post.description = data['description']
+        post.email = data['email']
+        post.phoneNumber = data['phoneNumber']
 
         post.save()
 

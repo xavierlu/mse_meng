@@ -3,9 +3,9 @@ import { connect } from "react-redux";
 import {
   Form,
   Input,
-  Tooltip,
+  Divider,
   Icon,
-  Cascader,
+  Upload,
   Select,
   Checkbox,
   Button,
@@ -17,41 +17,7 @@ import { postProject } from "../store/actions/posts";
 
 const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
-
-const residences = [
-  {
-    value: "zhejiang",
-    label: "Zhejiang",
-    children: [
-      {
-        value: "hangzhou",
-        label: "Hangzhou",
-        children: [
-          {
-            value: "xihu",
-            label: "West Lake"
-          }
-        ]
-      }
-    ]
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men"
-          }
-        ]
-      }
-    ]
-  }
-];
+const { TextArea } = Input;
 
 class PostForm extends React.Component {
   state = {
@@ -65,15 +31,16 @@ class PostForm extends React.Component {
       if (!err) {
         const project = {
           company: this.props.username,
-          title: values.nickname
+          title: values.title,
+          abstract: values.abstract,
+          description: values.description,
+          email: values.email,
+          phoneNumber: values.phoneNumber
         };
+        console.log(project);
         this.props.postProject(this.props.token, project);
         message.loading("Uploading", 2, () =>
-          message.success(
-            "Successfully posted",
-            2,
-            this.props.history.push("/")
-          )
+          message.success("Successfully posted", 2)
         );
       }
     });
@@ -113,6 +80,14 @@ class PostForm extends React.Component {
     this.setState({ autoCompleteResult });
   };
 
+  normFile = e => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
+  };
+
   render() {
     const { getFieldDecorator } = this.props.form;
     const { autoCompleteResult } = this.state;
@@ -139,14 +114,6 @@ class PostForm extends React.Component {
         }
       }
     };
-    const prefixSelector = getFieldDecorator("prefix", {
-      initialValue: "86"
-    })(
-      <Select style={{ width: 70 }}>
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
-      </Select>
-    );
 
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
@@ -154,6 +121,49 @@ class PostForm extends React.Component {
 
     return (
       <Form onSubmit={this.handleSubmit}>
+        <Divider orientation="left">Project Information</Divider>
+        <Form.Item {...formItemLayout} label="Title">
+          {getFieldDecorator("title", {
+            rules: [
+              {
+                required: true,
+                message: "Please input the title!",
+                whitespace: true
+              }
+            ]
+          })(<Input />)}
+        </Form.Item>
+        <Form.Item {...formItemLayout} label="Abstract">
+          {getFieldDecorator("abstract", {
+            rules: [{ required: true }]
+          })(<TextArea autosize={{ minRows: 2, maxRows: 6 }} />)}
+        </Form.Item>
+        <Form.Item {...formItemLayout} label="Description">
+          {getFieldDecorator("description", {
+            rules: [{ required: true }]
+          })(<TextArea rows={4} />)}
+        </Form.Item>
+        <Form.Item {...formItemLayout} label="Files">
+          <div className="dropbox">
+            {getFieldDecorator("dragger", {
+              valuePropName: "fileList",
+              getValueFromEvent: this.normFile
+            })(
+              <Upload.Dragger name="files" action="/upload.do">
+                <p className="ant-upload-drag-icon">
+                  <Icon type="inbox" />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  Support for a single or bulk upload.
+                </p>
+              </Upload.Dragger>
+            )}
+          </div>
+        </Form.Item>
+        <Divider orientation="left">Contact Information</Divider>
         <Form.Item {...formItemLayout} label="E-mail">
           {getFieldDecorator("email", {
             rules: [
@@ -168,71 +178,12 @@ class PostForm extends React.Component {
             ]
           })(<Input />)}
         </Form.Item>
-        <Form.Item {...formItemLayout} label="Password">
-          {getFieldDecorator("password", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your password!"
-              },
-              {
-                validator: this.validateToNextPassword
-              }
-            ]
-          })(<Input type="password" />)}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Confirm Password">
-          {getFieldDecorator("confirm", {
-            rules: [
-              {
-                required: true,
-                message: "Please confirm your password!"
-              },
-              {
-                validator: this.compareToFirstPassword
-              }
-            ]
-          })(<Input type="password" onBlur={this.handleConfirmBlur} />)}
-        </Form.Item>
-        <Form.Item
-          {...formItemLayout}
-          label={
-            <span>
-              Nickname&nbsp;
-              <Tooltip title="What do you want others to call you?">
-                <Icon type="question-circle-o" />
-              </Tooltip>
-            </span>
-          }
-        >
-          {getFieldDecorator("nickname", {
-            rules: [
-              {
-                required: true,
-                message: "Please input your nickname!",
-                whitespace: true
-              }
-            ]
-          })(<Input />)}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Habitual Residence">
-          {getFieldDecorator("residence", {
-            initialValue: ["zhejiang", "hangzhou", "xihu"],
-            rules: [
-              {
-                type: "array",
-                required: true,
-                message: "Please select your habitual residence!"
-              }
-            ]
-          })(<Cascader options={residences} />)}
-        </Form.Item>
         <Form.Item {...formItemLayout} label="Phone Number">
-          {getFieldDecorator("phone", {
+          {getFieldDecorator("phoneNumber", {
             rules: [
               { required: true, message: "Please input your phone number!" }
             ]
-          })(<Input addonBefore={prefixSelector} style={{ width: "100%" }} />)}
+          })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Website">
           {getFieldDecorator("website", {

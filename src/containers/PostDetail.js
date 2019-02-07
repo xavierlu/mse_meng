@@ -27,7 +27,7 @@ class PostDetail extends React.Component {
     }
   }
   render() {
-    const { title } = this.props.currentPost;
+    const { title, abstract, description, email, phoneNumber } = this.props.currentPost;
     console.log(this.props.currentPost);
     return (
       <Hoc>
@@ -40,8 +40,17 @@ class PostDetail extends React.Component {
               </Link>
             }
           >
-            <Card type="inner" title="Inner Card title">
-              Inner Card content
+            <Card type="inner" title="Abstract">
+              {abstract}
+            </Card>
+            <Card type="inner" title="Description">
+              {description}
+            </Card>
+            <Card type="inner" title="e-mail">
+              {email}
+            </Card>
+            <Card type="inner" title="Phone Number">
+              {phoneNumber}
             </Card>
           </Card>
         ) : null}
