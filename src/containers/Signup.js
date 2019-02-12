@@ -1,8 +1,9 @@
 import React from "react";
-import { Form, Input, Icon, Button, Select } from "antd";
+import { Form, Input, Icon, Button, Select, Upload } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
+import Hoc from "../hoc/hoc";
 
 const FormItem = Form.Item;
 const Option = Select.Option;
@@ -50,6 +51,14 @@ class RegistrationForm extends React.Component {
       form.validateFields(["confirm"], { force: true });
     }
     callback();
+  };
+
+  normFile = e => {
+    console.log("Upload event:", e);
+    if (Array.isArray(e)) {
+      return e;
+    }
+    return e && e.fileList;
   };
 
   render() {
@@ -144,6 +153,67 @@ class RegistrationForm extends React.Component {
             </Select>
           )}
         </FormItem>
+
+        {this.props.form.getFieldValue("userType") === "student" ? (
+          <Hoc>
+            <FormItem>
+              {getFieldDecorator("undergrads", {
+                rules: [
+                  {
+                    required: true,
+                    message:
+                      "Please input your undergraduates university/college"
+                  }
+                ]
+              })(
+                <Input
+                  prefix={
+                    <Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />
+                  }
+                  placeholder="Undergraduates university/college"
+                />
+              )}
+            </FormItem>
+
+            <FormItem>
+              {getFieldDecorator("major", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input your undergraduates major"
+                  }
+                ]
+              })(
+                <Input
+                  prefix={
+                    <Icon type="book" style={{ color: "rgba(0,0,0,.25)" }} />
+                  }
+                  placeholder="Undergraduates major"
+                />
+              )}
+            </FormItem>
+            <Form.Item label="Files">
+              <div className="dropbox">
+                {getFieldDecorator("dragger", {
+                  valuePropName: "fileList",
+                  getValueFromEvent: this.normFile
+                })(
+                  <Upload.Dragger name="files" action="/upload.do">
+                    <p className="ant-upload-drag-icon">
+                      <Icon type="inbox" />
+                    </p>
+                    <p className="ant-upload-text">
+                      Click or drag file to this area to upload
+                    </p>
+                    <p className="ant-upload-hint">
+                      Support for a single or bulk upload.
+                    </p>
+                  </Upload.Dragger>
+                )}
+              </div>
+            </Form.Item>
+          </Hoc>
+        ) : null}
 
         <FormItem>
           <Button

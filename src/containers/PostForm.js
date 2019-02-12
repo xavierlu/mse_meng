@@ -6,7 +6,6 @@ import {
   Divider,
   Icon,
   Upload,
-  Select,
   Checkbox,
   Button,
   AutoComplete,
@@ -15,7 +14,6 @@ import {
 
 import { postProject } from "../store/actions/posts";
 
-const { Option } = Select;
 const AutoCompleteOption = AutoComplete.Option;
 const { TextArea } = Input;
 
@@ -35,7 +33,8 @@ class PostForm extends React.Component {
           abstract: values.abstract,
           description: values.description,
           email: values.email,
-          phoneNumber: values.phoneNumber
+          phoneNumber: values.phoneNumber,
+          file: values.dragger
         };
         console.log(project);
         this.props.postProject(this.props.token, project);
@@ -149,17 +148,16 @@ class PostForm extends React.Component {
               valuePropName: "fileList",
               getValueFromEvent: this.normFile
             })(
-              <Upload.Dragger name="files" action="/upload.do">
-                <p className="ant-upload-drag-icon">
-                  <Icon type="inbox" />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  Support for a single or bulk upload.
-                </p>
-              </Upload.Dragger>
+              <Upload
+                name="logo"
+                accept=".pdf,.jpg,.png,.doc,.docx"
+                listType="picture"
+                beforeUpload={(file, fileList) => false}
+              >
+                <Button>
+                  <Icon type="upload" /> Select File
+                </Button>
+              </Upload>
             )}
           </div>
         </Form.Item>

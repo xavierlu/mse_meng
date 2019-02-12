@@ -8,6 +8,7 @@ class Post(models.Model):
     email = models.EmailField(default='')
     phoneNumber = models.CharField(max_length=11, default='')
     company = models.ForeignKey(User, on_delete=models.CASCADE)
+    relevent_file = models.FileField(default=False)
 
     def __str__(self):
         return self.title
