@@ -45,13 +45,15 @@ export const authLogin = (username, password) => {
         password: password
       })
       .then(res => {
-        console.log(res.data)
+        console.log(res.data);
         const user = {
           token: res.data.key,
           username,
           userId: res.data.user,
           is_student: res.data.user_type.is_student,
           is_company: res.data.user_type.is_company,
+          undergrads_university: res.data.user_type.undergrads_university,
+          undergrads_major: res.data.user_type.undergrads_major,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));
@@ -64,7 +66,15 @@ export const authLogin = (username, password) => {
   };
 };
 
-export const authSignup = (username, email, password1, password2, is_student) => {
+export const authSignup = (
+  username,
+  email,
+  password1,
+  password2,
+  is_student,
+  undergrads_university,
+  undergrads_major
+) => {
   return dispatch => {
     dispatch(authStart());
     const user = {
@@ -73,8 +83,11 @@ export const authSignup = (username, email, password1, password2, is_student) =>
       password1,
       password2,
       is_student,
-      is_company: !is_student
-    }
+      is_company: !is_student,
+      undergrads_university,
+      undergrads_major
+    };
+    console.log(user);
     axios
       .post("http://127.0.0.1:8000/rest-auth/registration/", user)
       .then(res => {
@@ -84,6 +97,8 @@ export const authSignup = (username, email, password1, password2, is_student) =>
           userId: res.data.user,
           is_student,
           is_company: !is_student,
+          undergrads_university,
+          undergrads_major,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));

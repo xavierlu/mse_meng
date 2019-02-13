@@ -24,7 +24,9 @@ class RegistrationForm extends React.Component {
           values.email,
           values.password,
           values.confirm,
-          is_student
+          is_student,
+          values.undergrads,
+          values.major
         );
         this.props.history.push("/");
       }
@@ -160,7 +162,7 @@ class RegistrationForm extends React.Component {
               {getFieldDecorator("undergrads", {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message:
                       "Please input your undergraduates university/college"
                   }
@@ -179,7 +181,7 @@ class RegistrationForm extends React.Component {
               {getFieldDecorator("major", {
                 rules: [
                   {
-                    required: true,
+                    required: false,
                     message: "Please input your undergraduates major"
                   }
                 ]
@@ -244,9 +246,25 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, email, password1, password2, is_student) =>
+    onAuth: (
+      username,
+      email,
+      password1,
+      password2,
+      is_student,
+      undergrads_university,
+      undergrads_major
+    ) =>
       dispatch(
-        actions.authSignup(username, email, password1, password2, is_student)
+        actions.authSignup(
+          username,
+          email,
+          password1,
+          password2,
+          is_student,
+          undergrads_university,
+          undergrads_major
+        )
       )
   };
 };
