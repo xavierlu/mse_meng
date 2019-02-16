@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Spin, Row, Col } from "antd";
+import { Form, Icon, Input, Button, Spin, Row, Col, Alert } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
@@ -20,7 +20,21 @@ class NormalLoginForm extends React.Component {
   render() {
     let errorMessage = null;
     if (this.props.error) {
-      errorMessage = <p>{this.props.error.message}</p>;
+      console.log(this.props.error);
+
+      errorMessage = (
+        <div>
+          <Alert
+            message="Error"
+            description={this.props.error.message}
+            type="error"
+            showIcon
+          />
+          <br />
+          </div>
+          );
+    } else {
+      if (this.props.token !== null) this.props.history.push("/");
     }
 
     const { getFieldDecorator } = this.props.form;
@@ -99,7 +113,8 @@ const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    token: state.auth.token
   };
 };
 

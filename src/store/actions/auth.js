@@ -85,7 +85,7 @@ export const authSignup = (
       is_student,
       is_company: !is_student,
       undergrads_university,
-      undergrads_major
+      undergrads_major 
     };
     console.log(user);
     axios
