@@ -162,7 +162,7 @@ class RegistrationForm extends React.Component {
               {getFieldDecorator("undergrads", {
                 rules: [
                   {
-                    required: false,
+                    required: true,
                     message:
                       "Please input your undergraduates university/college"
                   }
@@ -181,7 +181,7 @@ class RegistrationForm extends React.Component {
               {getFieldDecorator("major", {
                 rules: [
                   {
-                    required: false,
+                    required: true,
                     message: "Please input your undergraduates major"
                   }
                 ]

@@ -15,6 +15,8 @@ class UserSerializer(serializers.ModelSerializer):
 class CustomRegisterSerializer(RegisterSerializer):
     is_student = serializers.BooleanField()
     is_company = serializers.BooleanField()
+    undergrads_university = serializers.CharField()
+    undergrads_major = serializers.CharField()
 
     class Meta:
         model = User

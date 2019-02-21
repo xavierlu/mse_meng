@@ -1,5 +1,5 @@
 {
-  "name": "django-react-boilerplate",
+  "name": "mse5010",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -22,7 +22,7 @@
     "postinstall": "npm run build"
   },
   "engines": {
-    "node": "9.5.0",
-    "npm": "6.4.1"
+    "node": "10.1.0",
+    "npm": "5.6.0"
   }
 }

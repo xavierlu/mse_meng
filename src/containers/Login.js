@@ -47,7 +47,7 @@ class NormalLoginForm extends React.Component {
           <Button type="danger">NetID Login</Button>
         </Col>
         <Col span={12}>
-          All others use the Visitor Login.
+          All others use this Login.
           <br /> <br />
           {errorMessage}
           {this.props.loading ? (
