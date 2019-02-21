@@ -4,7 +4,7 @@ A web app that matches incoming Master of Engineering (M.Eng.) student with proj
 
 Uses Django, Django REST framework, React, and Redux.
 
-## Installation
+## Installation (Mac)
 
 The application will use two different development servers for Django and React. They will run on different ports and will function as two separate domains. Because of this, we need to enable cross-origin resource sharing (CORS) to send HTTP requests from React to Django without being blocked by the browser.
 
