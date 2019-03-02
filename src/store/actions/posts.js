@@ -30,7 +30,7 @@ export const getPosts = token => {
     };
 
     axios
-      .get("https://mse5010.herokuapp.com/posts/")
+      .get("http://127.0.0.1/posts/")
       .then(res => {
         const posts = res.data;
         dispatch(getPostListSuccess(posts));
@@ -70,7 +70,7 @@ export const getPostDetail = (token, id) => {
     };
 
     axios
-      .get(`https://mse5010.herokuapp.com/posts/${id}/`)
+      .get(`http://127.0.0.1/posts/${id}/`)
       .then(res => {
         const post = res.data;
         console.log(post);
@@ -112,7 +112,7 @@ export const postProject = (token, project) => {
     };
 
     axios
-      .post(`https://mse5010.herokuapp.com/posts/`, project)
+      .post(`http://127.0.0.1/posts/`, project)
       .then(res => {
         dispatch(postSuccess(project));
       })
