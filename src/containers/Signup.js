@@ -225,8 +225,8 @@ class RegistrationForm extends React.Component {
           >
             Signup
           </Button>
-          Or
-          <NavLink style={{ marginRight: "10px" }} to="/login/">
+          Or&nbsp;
+          <NavLink style={{ marginLeft: "10px" }} to="/login/">
             login
           </NavLink>
         </FormItem>

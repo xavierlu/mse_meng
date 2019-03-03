@@ -18,14 +18,19 @@ Activate the created virtual environment using source:
 $ source env/bin/activate
 ```
 
-Navigate to the project folder and install everything:
+Install any project dependencies:
+```
+$ pip install -r requirements.txt
+```
+
+Navigate to the project folder(if you type `ls` you should see a `package.json` file) and install everything:
 ```
 $ npm install
 ```
 
-Then start the django server:
+A `node_modules/` folder should have appeared. If so, start the django server:
 ```
-$ python manager.py runserver
+$ python3 manage.py runserver
 ```
 
 Keep this terminal open, open a new terminal, activate the virtual env, and start the react server:
