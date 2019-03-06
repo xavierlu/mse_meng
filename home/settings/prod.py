@@ -3,8 +3,7 @@
 from .base import *
 import dj_database_url
 
-DEBUG = False
-ALLOWED_HOSTS += ['http://domain.com']
+DEBUG = True
 WSGI_APPLICATION = 'home.wsgi.application'
 
 DATABASES = {
