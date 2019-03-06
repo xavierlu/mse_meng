@@ -40,7 +40,7 @@ export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("http://127.0.0.1/rest-auth/login/", {
+      .post("http://127.0.0.1:8000/rest-auth/login/", {
         username: username,
         password: password
       })
@@ -89,7 +89,7 @@ export const authSignup = (
     };
     console.log(user);
     axios
-      .post("http://127.0.0.1/rest-auth/registration/", user)
+      .post("http://127.0.0.1:8000/rest-auth/registration/", user)
       .then(res => {
         const user = {
           token: res.data.key,

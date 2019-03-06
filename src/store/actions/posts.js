@@ -30,7 +30,7 @@ export const getPosts = token => {
     };
 
     axios
-      .get("http://127.0.0.1/posts/")
+      .get("http://127.0.0.1:8000/posts/")
       .then(res => {
         const posts = res.data;
         dispatch(getPostListSuccess(posts));
@@ -70,7 +70,7 @@ export const getPostDetail = (token, id) => {
     };
 
     axios
-      .get(`http://127.0.0.1/posts/${id}/`)
+      .get(`http://127.0.0.1:8000/posts/${id}/`)
       .then(res => {
         const post = res.data;
         console.log(post);
