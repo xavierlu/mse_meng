@@ -3,11 +3,8 @@ env
 venv/
 
 # Compiled files
-**/*.pyc
 
 # database stuff
-db.sqlite3
-
 # node stuff
 node_modules
 node_modules/
