@@ -4,7 +4,6 @@ venv/
 
 # Compiled files
 **/*.pyc
-**/__pycache__
 
 # database stuff
 db.sqlite3
