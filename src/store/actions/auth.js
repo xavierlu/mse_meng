@@ -40,7 +40,11 @@ export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post("https://mse5010.herokuapp.com/rest-auth/login/", {
+      .post(`${
+        window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+          ? "http://127.0.0.1:8000"
+          : "https://mse5010.herokuapp.com"
+      }/rest-auth/login/`, {
         username: username,
         password: password
       })
@@ -89,7 +93,14 @@ export const authSignup = (
     };
     console.log(user);
     axios
-      .post("https://mse5010.herokuapp.com/rest-auth/registration/", user)
+      .post(
+        `${
+          window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1"
+            ? "http://127.0.0.1:8000"
+            : "https://mse5010.herokuapp.com"
+        }/rest-auth/registration/`,
+        user
+      )
       .then(res => {
         const user = {
           token: res.data.key,
