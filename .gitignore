@@ -3,18 +3,18 @@ env
 venv/
 
 # Compiled files
+**/*.pyc
+**/__pycache__
 
 # database stuff
+db.sqlite3
+
 # node stuff
 node_modules
 node_modules/
 build
 package-lock.json
-
-**/*.pyc
-**/__pycache__
-**/migrations
-db.sqlite3
+.vscode 
 
 # Editors
 .idea/

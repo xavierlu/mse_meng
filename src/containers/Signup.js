@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Icon, Button, Select, Upload } from "antd";
+import { Form, Input, Icon, Button, Select, Upload, message } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
@@ -25,10 +25,9 @@ class RegistrationForm extends React.Component {
           values.password,
           values.confirm,
           is_student,
-          values.undergrads,
-          values.major
+          values.undergrads == null ? "null" : values.undergrads,
+          values.major == null ? "null" : values.major
         );
-        this.props.history.push("/");
       }
     });
   };
@@ -65,6 +64,12 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+
+    if (this.props.error) {
+      for (var prop in this.props.error.response.data) {
+        message.error(this.props.error.response.data[prop]);
+      }
+    }
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -160,9 +165,12 @@ class RegistrationForm extends React.Component {
           <Hoc>
             <FormItem>
               {getFieldDecorator("undergrads", {
+                initialValue:
+                  this.props.form.getFieldValue("userType") === "student"
+                    ? ""
+                    : "null",
                 rules: [
                   {
-                    required: true,
                     message:
                       "Please input your undergraduates university/college"
                   }
@@ -179,9 +187,12 @@ class RegistrationForm extends React.Component {
 
             <FormItem>
               {getFieldDecorator("major", {
+                initialValue:
+                  this.props.form.getFieldValue("userType") === "student"
+                    ? ""
+                    : "null",
                 rules: [
                   {
-                    required: true,
                     message: "Please input your undergraduates major"
                   }
                 ]

@@ -30,7 +30,14 @@ export const getPosts = token => {
     };
 
     axios
-      .get("https://mse5010.herokuapp.com/posts/")
+      .get(
+        `${
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+            ? "http://127.0.0.1:8000"
+            : "https://mse5010.herokuapp.com"
+        }/posts/`
+      )
       .then(res => {
         const posts = res.data;
         dispatch(getPostListSuccess(posts));
@@ -74,8 +81,8 @@ export const getPostDetail = (token, id) => {
         `${
           window.location.hostname === "localhost" ||
           window.location.hostname === "127.0.0.1"
-            ? "http://127.0.0.1:8000"
-            : "https://mse5010.herokuapp.com"
+            ? `http://127.0.0.1:8000`
+            : `http://127.0.0.1:8000`
         }/posts/${id}/`
       )
       .then(res => {
@@ -123,8 +130,8 @@ export const postProject = (token, project) => {
         `${
           window.location.hostname === "localhost" ||
           window.location.hostname === "127.0.0.1"
-            ? "http://127.0.0.1:8000"
-            : "https://mse5010.herokuapp.com"
+            ? `http://127.0.0.1:8000`
+            : `http://127.0.0.1:8000`
         }/posts/`,
         project
       )
