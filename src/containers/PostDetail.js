@@ -5,6 +5,7 @@ import { getPostDetail } from "../store/actions/posts";
 import { Link, withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
+import QA from "./QA";
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -51,6 +52,9 @@ class PostDetail extends React.Component {
             </Card>
             <Card type="inner" title="Phone Number">
               {phoneNumber}
+            </Card>
+            <Card type="inner" title="Q&A">
+              <QA/>
             </Card>
           </Card>
         ) : null}
