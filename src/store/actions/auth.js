@@ -39,11 +39,24 @@ export const checkAuthTimeout = expirationTime => {
 export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
-    axios
-      .post("https://mse5010.herokuapp.com/rest-auth/login/", {
+    var authOptions = {
+      method: "POST",
+      url: `${
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "127.0.0.1"
+          ? "http://127.0.0.1:8000"
+          : "https://mse5010.herokuapp.com"
+      }/rest-auth/login/`,
+      data: {
         username: username,
         password: password
-      })
+      },
+      headers: {
+        "Accept": "*/*"
+      },
+      json: true
+    };
+    axios(authOptions)
       .then(res => {
         console.log(res.data);
         const user = {
@@ -61,6 +74,7 @@ export const authLogin = (username, password) => {
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
+        console.log(err.response.data.non_field_errors);
         dispatch(authFail(err));
       });
   };
@@ -89,7 +103,15 @@ export const authSignup = (
     };
     console.log(user);
     axios
-      .post("https://mse5010.herokuapp.com/rest-auth/registration/", user)
+      .post(
+        `${
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+            ? "http://127.0.0.1:8000"
+            : "https://mse5010.herokuapp.com"
+        }/rest-auth/registration/`,
+        user
+      )
       .then(res => {
         const user = {
           token: res.data.key,

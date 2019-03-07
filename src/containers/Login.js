@@ -20,19 +20,23 @@ class NormalLoginForm extends React.Component {
   render() {
     let errorMessage = null;
     if (this.props.error) {
-      console.log(this.props.error);
+      console.log(this.props.error.response.data);
 
       errorMessage = (
         <div>
           <Alert
             message="Error"
-            description={this.props.error.message}
+            description={
+              this.props.error.response.data.non_field_errors
+                ? "Unable to log in with provided credentials."
+                : "Somethine went wrong"
+            }
             type="error"
             showIcon
           />
           <br />
-          </div>
-          );
+        </div>
+      );
     } else {
       if (this.props.token !== null) this.props.history.push("/");
     }
