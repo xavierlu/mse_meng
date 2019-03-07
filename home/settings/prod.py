@@ -5,12 +5,8 @@ import dj_database_url
 
 DEBUG = False
 ALLOWED_HOSTS += ['*']
-WSGI_APPLICATION = 'home.wsgi.prod.application'
+WSGI_APPLICATION = 'home.wsgi.application'
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
+DATABASES['default'] =  dj_database_url.config()
+
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
