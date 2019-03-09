@@ -5,8 +5,6 @@ from django.contrib.auth.models import AbstractUser
 class User(AbstractUser):
     is_student = models.BooleanField()
     is_company = models.BooleanField()
-    undergrads_university = models.CharField(max_length=100, default='', blank=True, null=True)
-    undergrads_major = models.CharField(max_length=100, default='', blank=True, null=True)
 
     def __str__(self):
         return self.username

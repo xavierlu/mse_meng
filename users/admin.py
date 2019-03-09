@@ -8,7 +8,7 @@ from .models import User
 class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
-            'fields': ('email', 'username', 'is_student', 'is_company', 'password1', 'password2', 'undergrads_university', 'undergrads_major')
+            'fields': ('email', 'username', 'is_student', 'is_company', 'password1', 'password2')
         }),
         ('Permissions', {
             'fields': ('is_superuser', 'is_staff')
@@ -16,7 +16,7 @@ class UserAdmin(BaseUserAdmin):
     )
     fieldsets = (
         (None, {
-            'fields': ('email', 'username', 'is_student', 'is_company', 'password', 'undergrads_university', 'undergrads_major')
+            'fields': ('email', 'username', 'is_student', 'is_company', 'password')
         }),
         ('Permissions', {
             'fields': ('is_superuser', 'is_staff')

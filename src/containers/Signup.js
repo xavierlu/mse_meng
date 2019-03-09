@@ -1,12 +1,10 @@
 import React from "react";
-import { Form, Input, Icon, Button, Select, Upload, message } from "antd";
+import { Form, Input, Icon, Button, message } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
-import Hoc from "../hoc/hoc";
 
 const FormItem = Form.Item;
-const Option = Select.Option;
 
 class RegistrationForm extends React.Component {
   state = {
@@ -17,16 +15,12 @@ class RegistrationForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
-        let is_student = false;
-        if (values.userType === "student") is_student = true;
         this.props.onAuth(
           values.userName,
           values.email,
           values.password,
           values.confirm,
-          is_student,
-          values.undergrads == null ? "null" : values.undergrads,
-          values.major == null ? "null" : values.major
+          false
         );
       }
     });
@@ -146,89 +140,6 @@ class RegistrationForm extends React.Component {
         </FormItem>
 
         <FormItem>
-          {getFieldDecorator("userType", {
-            rules: [
-              {
-                required: true,
-                message: "Please select a user"
-              }
-            ]
-          })(
-            <Select placeholder="Please select a type">
-              <Option value="student">Student</Option>
-              <Option value="company">Company</Option>
-            </Select>
-          )}
-        </FormItem>
-
-        {this.props.form.getFieldValue("userType") === "student" ? (
-          <Hoc>
-            <FormItem>
-              {getFieldDecorator("undergrads", {
-                initialValue:
-                  this.props.form.getFieldValue("userType") === "student"
-                    ? ""
-                    : "null",
-                rules: [
-                  {
-                    message:
-                      "Please input your undergraduates university/college"
-                  }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="bank" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Undergraduates university/college"
-                />
-              )}
-            </FormItem>
-
-            <FormItem>
-              {getFieldDecorator("major", {
-                initialValue:
-                  this.props.form.getFieldValue("userType") === "student"
-                    ? ""
-                    : "null",
-                rules: [
-                  {
-                    message: "Please input your undergraduates major"
-                  }
-                ]
-              })(
-                <Input
-                  prefix={
-                    <Icon type="book" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="Undergraduates major"
-                />
-              )}
-            </FormItem>
-            <Form.Item label="Files">
-              <div className="dropbox">
-                {getFieldDecorator("dragger", {
-                  valuePropName: "fileList",
-                  getValueFromEvent: this.normFile
-                })(
-                  <Upload.Dragger name="files" action="/upload.do">
-                    <p className="ant-upload-drag-icon">
-                      <Icon type="inbox" />
-                    </p>
-                    <p className="ant-upload-text">
-                      Click or drag file to this area to upload
-                    </p>
-                    <p className="ant-upload-hint">
-                      Support for a single or bulk upload.
-                    </p>
-                  </Upload.Dragger>
-                )}
-              </div>
-            </Form.Item>
-          </Hoc>
-        ) : null}
-
-        <FormItem>
           <Button
             type="primary"
             htmlType="submit"
@@ -262,9 +173,7 @@ const mapDispatchToProps = dispatch => {
       email,
       password1,
       password2,
-      is_student,
-      undergrads_university,
-      undergrads_major
+      is_student
     ) =>
       dispatch(
         actions.authSignup(
@@ -272,9 +181,7 @@ const mapDispatchToProps = dispatch => {
           email,
           password1,
           password2,
-          is_student,
-          undergrads_university,
-          undergrads_major
+          is_student
         )
       )
   };

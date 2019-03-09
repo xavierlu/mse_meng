@@ -65,8 +65,6 @@ export const authLogin = (username, password) => {
           userId: res.data.user,
           is_student: res.data.user_type.is_student,
           is_company: res.data.user_type.is_company,
-          undergrads_university: res.data.user_type.undergrads_university,
-          undergrads_major: res.data.user_type.undergrads_major,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));
@@ -85,9 +83,7 @@ export const authSignup = (
   email,
   password1,
   password2,
-  is_student,
-  undergrads_university,
-  undergrads_major
+  is_student
 ) => {
   return dispatch => {
     dispatch(authStart());
@@ -97,9 +93,7 @@ export const authSignup = (
       password1,
       password2,
       is_student,
-      is_company: !is_student,
-      undergrads_university,
-      undergrads_major
+      is_company: !is_student
     };
     console.log(user);
     axios
@@ -119,8 +113,6 @@ export const authSignup = (
           userId: res.data.user,
           is_student,
           is_company: !is_student,
-          undergrads_university,
-          undergrads_major,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));
