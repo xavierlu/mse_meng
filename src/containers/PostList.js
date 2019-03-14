@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Skeleton, Table } from "antd";
+import { Button, Skeleton, Table, Tooltip, Icon } from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
@@ -20,11 +20,19 @@ class PostList extends React.PureComponent {
     }
   }
 
-  renderItem(id) {
+  renderEditButton(post) {
     return (
-      <Link to={`/posts/${id}`}>
-        <Button icon={this.props.is_company ? "edit" : "right"} />
-      </Link>
+      <Hoc>
+        {post.company !== this.props.username && this.props.is_company ? (
+          <Tooltip title={"You can only edit your own post :("}>
+            <Button type="dashed" type="danger" icon="frown" />
+          </Tooltip>
+        ) : (
+          <Link to={`/posts/${post.id}`}>
+            <Button icon={this.props.is_company ? "edit" : "right"} />
+          </Link>
+        )}
+      </Hoc>
     );
   }
 
@@ -44,9 +52,8 @@ class PostList extends React.PureComponent {
       },
       {
         title: this.props.is_company ? "Edit Post" : "View More",
-        dataIndex: "id",
-        key: "id",
-        render: id => this.renderItem(id)
+        key: "action",
+        render: post => this.renderEditButton(post)
       }
     ];
 
@@ -71,6 +78,7 @@ class PostList extends React.PureComponent {
 const mapStateToProps = state => {
   return {
     token: state.auth.token,
+    username: state.auth.username,
     posts: state.posts.posts,
     loading: state.posts.loading,
     is_company: state.auth.is_company
