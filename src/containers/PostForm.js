@@ -36,7 +36,6 @@ class PostForm extends React.Component {
           phoneNumber: values.phoneNumber,
           file: values.dragger
         };
-        console.log(project);
         this.props.postProject(this.props.token, project);
         message.loading("Uploading", 2, () =>
           message.success("Successfully posted", 2)

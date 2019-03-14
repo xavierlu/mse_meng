@@ -15,8 +15,7 @@ class PostSerializer(serializers.ModelSerializer):
         print(data)
 
         post = Post()
-        company = User.objects.get(username=data['company'])
-        post.company = company
+        post.company = data['company']
         post.title = data['title']
         post.abstract = data['abstract']
         post.description = data['description']

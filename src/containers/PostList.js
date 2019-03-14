@@ -5,19 +5,6 @@ import { Button, Skeleton, Table } from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
-const listData = [];
-for (let i = 0; i < 23; i++) {
-  listData.push({
-    href: "http://ant.design",
-    title: `ant design part ${i}`,
-    avatar: "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
-    description:
-      "Ant Design, a design language for background applications, is refined by Ant UED Team.",
-    content:
-      "We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently."
-  });
-}
-
 class PostList extends React.PureComponent {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
