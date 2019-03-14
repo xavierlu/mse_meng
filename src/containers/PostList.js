@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { List, Skeleton } from "antd";
+import { Button, Skeleton, Table } from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
@@ -33,15 +33,34 @@ class PostList extends React.PureComponent {
     }
   }
 
-  renderItem(item) {
+  renderItem(id) {
     return (
-      <Link to={`/posts/${item.id}`}>
-        <List.Item>{item.title}</List.Item>
+      <Link to={`/posts/${id}`}>
+        <Button icon={this.props.is_company ? "edit" : "right"} />
       </Link>
     );
   }
 
   render() {
+    const columns = [
+      {
+        title: "Project Title",
+        dataIndex: "title",
+        key: "title"
+      },
+      {
+        title: "Company",
+        dataIndex: "company",
+        key: "company"
+      },
+      {
+        title: this.props.is_company ? "Edit Post" : "View More",
+        dataIndex: "id",
+        key: "id",
+        render: id => this.renderItem(id)
+      }
+    ];
+
     return (
       <Hoc>
         {this.props.token === undefined || this.props.token === null ? (
@@ -51,18 +70,7 @@ class PostList extends React.PureComponent {
             {this.props.loading ? (
               <Skeleton active />
             ) : (
-              <List
-                itemLayout="vertical"
-                size="large"
-                pagination={{
-                  onChange: page => {
-                    console.log(page);
-                  },
-                  pageSize: 8
-                }}
-                dataSource={this.props.posts}
-                renderItem={item => this.renderItem(item)}
-              />
+              <Table columns={columns} dataSource={this.props.posts} />
             )}
           </Hoc>
         )}
@@ -75,7 +83,8 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     posts: state.posts.posts,
-    loading: state.posts.loading
+    loading: state.posts.loading,
+    is_company: state.auth.is_company
   };
 };
 

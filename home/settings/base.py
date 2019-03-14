@@ -4,7 +4,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 DEBUG = True
-ALLOWED_HOSTS = [ '*' ]
+ALLOWED_HOSTS = ['*']
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -78,6 +78,7 @@ REST_FRAMEWORK = {
 }
 
 CSRF_COOKIE_NAME = "csrftoken"
+CORS_ORIGIN_ALLOW_ALL = True
 
 ACCOUNT_UNIQUE_EMAIL = True
 ACCOUNT_EMAIL_REQUIRED = False
@@ -105,8 +106,7 @@ LOGGING = {
     'loggers': {
         'django': {
             'handlers': ['console'],
-             'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
+            'level': os.getenv('DJANGO_LOG_LEVEL', 'DEBUG'),
         },
     },
 }
-

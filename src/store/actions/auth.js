@@ -39,24 +39,11 @@ export const checkAuthTimeout = expirationTime => {
 export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
-    var authOptions = {
-      method: "POST",
-      url: `${
-        window.location.hostname === "localhost" ||
-        window.location.hostname === "127.0.0.1"
-          ? "http://127.0.0.1:8000"
-          : "https://mse5010.herokuapp.com"
-      }/rest-auth/login/`,
-      data: {
+    axios
+      .post(`http://127.0.0.1:8000/rest-auth/login/`, {
         username: username,
         password: password
-      },
-      headers: {
-        "Accept": "*/*"
-      },
-      json: true
-    };
-    axios(authOptions)
+      })
       .then(res => {
         console.log(res.data);
         const user = {
