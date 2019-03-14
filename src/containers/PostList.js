@@ -33,12 +33,14 @@ class PostList extends React.PureComponent {
       {
         title: "Project Title",
         dataIndex: "title",
-        key: "title"
+        key: "title",
+        sorter: (a, b) => a.title.localeCompare(b.title)
       },
       {
         title: "Company",
         dataIndex: "company",
-        key: "company"
+        key: "company",
+        sorter: (a, b) => a.company.localeCompare(b.company)
       },
       {
         title: this.props.is_company ? "Edit Post" : "View More",

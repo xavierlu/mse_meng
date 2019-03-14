@@ -9,7 +9,8 @@ import {
   Checkbox,
   Button,
   AutoComplete,
-  message
+  message,
+  Tooltip
 } from "antd";
 
 import { postProject } from "../store/actions/posts";
@@ -120,6 +121,25 @@ class PostForm extends React.Component {
     return (
       <Form onSubmit={this.handleSubmit}>
         <Divider orientation="left">Project Information</Divider>
+        <Form.Item
+          {...formItemLayout}
+          label={
+            <span>
+              Company&nbsp;
+              <Tooltip
+                title={
+                  "Not " +
+                  this.props.username +
+                  "? Logout with the button on the left"
+                }
+              >
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          <Input value={this.props.username} disabled="true" />
+        </Form.Item>
         <Form.Item {...formItemLayout} label="Title">
           {getFieldDecorator("title", {
             rules: [

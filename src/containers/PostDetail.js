@@ -10,26 +10,25 @@ import QA from "./QA";
 class PostDetail extends React.Component {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
-      this.props.getPostDetail(
-        this.props.token,
-        this.props.match.params.id
-      );
+      this.props.getPostDetail(this.props.token, this.props.match.params.id);
     }
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
-        this.props.getPostDetail(
-          newProps.token,
-          this.props.match.params.id
-        );
+        this.props.getPostDetail(newProps.token, this.props.match.params.id);
       }
     }
   }
   render() {
-    const { title, abstract, description, email, phoneNumber } = this.props.currentPost;
-    console.log(this.props.currentPost);
+    const {
+      title,
+      abstract,
+      description,
+      email,
+      phoneNumber
+    } = this.props.currentPost;
     return (
       <Hoc>
         {Object.keys(this.props.currentPost).length > 0 ? (
@@ -54,7 +53,7 @@ class PostDetail extends React.Component {
               {phoneNumber}
             </Card>
             <Card type="inner" title="Q&A">
-              <QA/>
+              <QA />
             </Card>
           </Card>
         ) : null}
