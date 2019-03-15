@@ -18,3 +18,11 @@ class PostViewSet(viewsets.ModelViewSet):
         if post:
             return Response(status=HTTP_201_CREATED)
         return Response(status=HTTP_400_BAD_REQUEST)
+
+    # pk is the post's id
+    def post(self, request, pk):
+        serializer = PostSerializer(data=request.data)
+        post = serializer.update(request, pk)
+        if post:
+            return Response(status=HTTP_201_CREATED)
+        return Response(status=HTTP_400_BAD_REQUEST)

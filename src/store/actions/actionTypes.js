@@ -14,3 +14,7 @@ export const GET_POST_DETAIL_SUCCESS = "GET_POST_DETAIL_SUCCESS";
 export const POST_START = "POST_START";
 export const POST_FAIL = "POST_FAIL";
 export const POST_SUCCESS = "POST_SUCCESS";
+
+export const EDIT_POST_START = "POST_START";
+export const EDIT_POST_FAIL = "POST_FAIL";
+export const EDIT_POST_SUCCESS = "POST_SUCCESS";

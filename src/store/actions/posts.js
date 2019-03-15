@@ -70,14 +70,7 @@ export const getPostDetail = (token, id) => {
     };
 
     axios
-      .get(
-        `${
-          window.location.hostname === "localhost" ||
-          window.location.hostname === "127.0.0.1"
-            ? `http://127.0.0.1:8000`
-            : `http://127.0.0.1:8000`
-        }/posts/${id}/`
-      )
+      .get(`http://127.0.0.1:8000/posts/${id}/`)
       .then(res => {
         const post = res.data;
         console.log(post);
@@ -125,6 +118,45 @@ export const postProject = (token, project) => {
       })
       .catch(err => {
         dispatch(postFail(err));
+      });
+  };
+};
+
+export const editPostStart = () => {
+  return {
+    type: actionTypes.EDIT_POST_START
+  };
+};
+
+export const editPostSuccess = post => {
+  return {
+    type: actionTypes.EDIT_POST_SUCCESS,
+    post
+  };
+};
+
+export const editPostFail = error => {
+  return {
+    type: actionTypes.EDIT_POST_FAIL,
+    error: error
+  };
+};
+
+export const editPost = (token, id, project) => {
+  return dispatch => {
+    dispatch(editPostStart());
+    axios.defaults.headers = {
+      "Content-Type": "application/json",
+      Authorization: `Token ${token}`
+    };
+
+    axios
+      .post(`http://127.0.0.1:8000/posts/${id}/`, project)
+      .then(res => {
+        dispatch(editPostSuccess(project));
+      })
+      .catch(err => {
+        dispatch(editPostFail(err));
       });
   };
 };

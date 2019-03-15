@@ -25,3 +25,21 @@ class PostSerializer(serializers.ModelSerializer):
         post.save()
 
         return post
+
+    def update(self, request, pk):
+        data = request.data
+        print("1========")
+        print(data)
+
+        post = Post.objects.all().get(id=pk)
+
+        post.company = data['company']
+        post.title = data['title']
+        post.abstract = data['abstract']
+        post.description = data['description']
+        post.email = "testsetset@gmail.com"
+        post.phoneNumber = data['phoneNumber']
+
+        post.save()
+
+        return post

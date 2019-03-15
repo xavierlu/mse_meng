@@ -73,6 +73,27 @@ export const postFail = (state, action) => {
   });
 };
 
+export const editPostStart = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: true
+  });
+};
+
+export const editPostSuccess = (state, action) => {
+  return updateObject(state, {
+    error: null,
+    loading: false
+  });
+};
+
+export const editPostFail = (state, action) => {
+  return updateObject(state, {
+    error: action.error,
+    loading: false
+  });
+};
+
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.GET_POST_LIST_START:
@@ -93,6 +114,12 @@ const reducer = (state = initialState, action) => {
       return postSuccess(state, action);
     case actionTypes.POST_FAIL:
       return postFail(state, action);
+    case actionTypes.EDIT_POST_START:
+      return editPostStart(state, action);
+    case actionTypes.EDIT_POST_SUCCESS:
+      return editPostSuccess(state, action);
+    case actionTypes.EDIT_POST_FAIL:
+      return editPostFail(state, action);
     default:
       return state;
   }

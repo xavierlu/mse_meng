@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, Button } from "antd";
-import { getPostDetail } from "../store/actions/posts";
+import { getPostDetail, editPost } from "../store/actions/posts";
 import { Link, withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
@@ -37,6 +37,17 @@ class PostDetail extends React.Component {
             extra={
               <Link to="/">
                 <Button icon="left-circle"> Back </Button>
+                <Button
+                  onClick={() => {
+                    this.props.editPost(
+                      this.props.token,
+                      this.props.match.params.id,
+                      this.props.currentPost
+                    );
+                  }}
+                >
+                  Back
+                </Button>
               </Link>
             }
           >
@@ -72,7 +83,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPostDetail: (token, id) => dispatch(getPostDetail(token, id))
+    getPostDetail: (token, id) => dispatch(getPostDetail(token, id)),
+    editPost: (token, id, project) => dispatch(editPost(token, id, project))
   };
 };
 
