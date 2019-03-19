@@ -12,13 +12,14 @@ class PostSerializer(serializers.ModelSerializer):
 
     def create(self, request):
         data = request.data
-        print(data)
 
         post = Post()
         post.company = data['company']
         post.title = data['title']
         post.abstract = data['abstract']
         post.description = data['description']
+        post.studentNeeded = data['studentNeeded']
+        post.requirements = data['requirements']
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
 

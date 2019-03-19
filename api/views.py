@@ -28,6 +28,8 @@ class PostViewSet(viewsets.ModelViewSet):
         post.title = data['title']
         post.abstract = data['abstract']
         post.description = data['description']
+        post.studentNeeded = data['studentNeeded']
+        post.requirements = data['requirements']
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
 

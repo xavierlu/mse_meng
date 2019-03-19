@@ -10,7 +10,8 @@ import {
   Button,
   AutoComplete,
   message,
-  Tooltip
+  Tooltip,
+  InputNumber
 } from "antd";
 
 import { postProject, editPost } from "../store/actions/posts";
@@ -33,6 +34,8 @@ class PostForm extends React.Component {
           title: values.title,
           abstract: values.abstract,
           description: values.description,
+          studentNeeded: values.studentNeeded,
+          requirements: values.requirements,
           email: values.email,
           phoneNumber: values.phoneNumber,
           file: values.dragger
@@ -178,6 +181,43 @@ class PostForm extends React.Component {
             rules: [{ required: true }],
             initialValue: this.props.currentPost
               ? this.props.currentPost.description
+              : null
+          })(<TextArea rows={4} />)}
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={
+            <span>
+              Student Needed&nbsp;
+              <Tooltip title="You can update this later as needed">
+                <Icon type="question-circle-o" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator("studentNeeded", {
+            rules: [{ required: true }],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.studentNeeded
+              : 3
+          })(<InputNumber min={0} max={100} />)}
+          <span className="ant-form-text"> students</span>
+        </Form.Item>
+        <Form.Item
+          {...formItemLayout}
+          label={
+            <span>
+              Requirements&nbsp;
+              <Tooltip title="Coursework, skills, etc.">
+                <Icon type="info-circle" />
+              </Tooltip>
+            </span>
+          }
+        >
+          {getFieldDecorator("requirements", {
+            rules: [{ required: true }],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.requirements
               : null
           })(<TextArea rows={4} />)}
         </Form.Item>

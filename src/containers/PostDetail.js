@@ -27,6 +27,8 @@ class PostDetail extends React.Component {
       title,
       abstract,
       description,
+      studentNeeded,
+      requirements,
       email,
       phoneNumber
     } = this.props.currentPost;
@@ -46,6 +48,12 @@ class PostDetail extends React.Component {
             </Card>
             <Card type="inner" title="Description">
               {description}
+            </Card>
+            <Card type="inner" title="studentNeeded">
+              {studentNeeded}
+            </Card>
+            <Card type="inner" title="requirements">
+              {requirements}
             </Card>
             <Card type="inner" title="e-mail">
               {email}

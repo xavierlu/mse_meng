@@ -6,6 +6,8 @@ class Post(models.Model):
     title = models.CharField(max_length=50)
     abstract = models.CharField(max_length=255, default='')
     description = models.TextField(default='')
+    studentNeeded = models.IntegerField(default=0)
+    requirements = models.TextField(default='')
     email = models.EmailField(default='')
     phoneNumber = models.CharField(max_length=11, default='')
     company = models.CharField(max_length=50)
