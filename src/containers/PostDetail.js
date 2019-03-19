@@ -1,11 +1,12 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Card, Button } from "antd";
-import { getPostDetail, editPost } from "../store/actions/posts";
+import { getPostDetail } from "../store/actions/posts";
 import { Link, withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
 import QA from "./QA";
+import PostForm from "./PostForm";
 
 class PostDetail extends React.Component {
   componentDidMount() {
@@ -31,23 +32,12 @@ class PostDetail extends React.Component {
     } = this.props.currentPost;
     return (
       <Hoc>
-        {Object.keys(this.props.currentPost).length > 0 ? (
+        {this.props.is_student ? (
           <Card
             title={title}
             extra={
               <Link to="/">
                 <Button icon="left-circle"> Back </Button>
-                <Button
-                  onClick={() => {
-                    this.props.editPost(
-                      this.props.token,
-                      this.props.match.params.id,
-                      this.props.currentPost
-                    );
-                  }}
-                >
-                  Back
-                </Button>
               </Link>
             }
           >
@@ -67,7 +57,9 @@ class PostDetail extends React.Component {
               <QA />
             </Card>
           </Card>
-        ) : null}
+        ) : (
+          <PostForm currentPost={this.props.currentPost} />
+        )}
       </Hoc>
     );
   }
@@ -77,14 +69,14 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     currentPost: state.posts.currentPost,
-    loading: state.posts.loading
+    loading: state.posts.loading,
+    is_student: state.auth.is_student
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPostDetail: (token, id) => dispatch(getPostDetail(token, id)),
-    editPost: (token, id, project) => dispatch(editPost(token, id, project))
+    getPostDetail: (token, id) => dispatch(getPostDetail(token, id))
   };
 };
 

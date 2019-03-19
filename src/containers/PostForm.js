@@ -13,7 +13,7 @@ import {
   Tooltip
 } from "antd";
 
-import { postProject } from "../store/actions/posts";
+import { postProject, editPost } from "../store/actions/posts";
 
 const AutoCompleteOption = AutoComplete.Option;
 const { TextArea } = Input;
@@ -37,10 +37,21 @@ class PostForm extends React.Component {
           phoneNumber: values.phoneNumber,
           file: values.dragger
         };
-        this.props.postProject(this.props.token, project);
-        message.loading("Uploading", 2, () =>
-          message.success("Successfully posted", 2)
-        );
+        if (this.props.currentPost) {
+          this.props.editPost(
+            this.props.token,
+            this.props.currentPost.id,
+            project
+          );
+          message.loading("Updating", 2, () =>
+            message.success("Successfully updated", 2)
+          );
+        } else {
+          this.props.postProject(this.props.token, project);
+          message.loading("Uploading", 2, () =>
+            message.success("Successfully posted", 2)
+          );
+        }
       }
     });
   };
@@ -148,17 +159,26 @@ class PostForm extends React.Component {
                 message: "Please input the title!",
                 whitespace: true
               }
-            ]
+            ],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.title
+              : null
           })(<Input />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Abstract">
           {getFieldDecorator("abstract", {
-            rules: [{ required: true }]
+            rules: [{ required: true }],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.abstract
+              : null
           })(<TextArea autosize={{ minRows: 2, maxRows: 6 }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Description">
           {getFieldDecorator("description", {
-            rules: [{ required: true }]
+            rules: [{ required: true }],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.description
+              : null
           })(<TextArea rows={4} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Files">
@@ -192,19 +212,28 @@ class PostForm extends React.Component {
                 required: true,
                 message: "Please input your E-mail!"
               }
-            ]
+            ],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.email
+              : null
           })(<Input />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Phone Number">
           {getFieldDecorator("phoneNumber", {
             rules: [
               { required: true, message: "Please input your phone number!" }
-            ]
+            ],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.phoneNumber
+              : null
           })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Website">
           {getFieldDecorator("website", {
-            rules: [{ required: true, message: "Please input website!" }]
+            rules: [{ required: true, message: "Please input website!" }],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.website
+              : null
           })(
             <AutoComplete
               dataSource={websiteOptions}
@@ -226,7 +255,7 @@ class PostForm extends React.Component {
         </Form.Item>
         <Form.Item {...tailFormItemLayout}>
           <Button type="primary" htmlType="submit">
-            Register
+            {this.props.currentPost ? "Update" : "Post"}
           </Button>
         </Form.Item>
       </Form>
@@ -246,7 +275,8 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    postProject: (token, project) => dispatch(postProject(token, project))
+    postProject: (token, project) => dispatch(postProject(token, project)),
+    editPost: (token, id, project) => dispatch(editPost(token, id, project))
   };
 };
 

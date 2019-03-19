@@ -21,8 +21,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     # pk is the post's id
     def post(self, request, pk):
-        serializer = PostSerializer(data=request.data)
-        post = serializer.update(request, pk)
-        if post:
-            return Response(status=HTTP_201_CREATED)
-        return Response(status=HTTP_400_BAD_REQUEST)
+        data = request.data
+        post = Post.objects.all().get(id=pk)
+
+        post.company = data['company']
+        post.title = data['title']
+        post.abstract = data['abstract']
+        post.description = data['description']
+        post.email = data['email']
+        post.phoneNumber = data['phoneNumber']
+
+        post.save()
+        return Response(status=HTTP_201_CREATED)
