@@ -13,12 +13,12 @@ db.sqlite3
 # node stuff
 node_modules
 node_modules/
+build
 package-lock.json
 .vscode 
 
 # Editors
 .idea/
-.vscode/
 
 # OS Files
 .DS_Store

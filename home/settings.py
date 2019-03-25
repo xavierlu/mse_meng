@@ -1,8 +1,7 @@
 import os
-import dj_database_url
 
-BASE_DIR = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 SECRET_KEY = '-05sgp9!deq=q1nltm@^^2cc+v29i(tyybv3v2t77qi66czazj'
 DEBUG = True
 ALLOWED_HOSTS = ['*', '127.0.0.1', 'mse5010.herokuapp.com']
@@ -60,7 +59,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'home.wsgi.application'
 
-DATABASES = {'default': dj_database_url.config()}
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+AUTH_PASSWORD_VALIDATORS = [
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'}
+]
 
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
@@ -104,8 +112,6 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
+    'mse5010.herokuapp.com',
+    'mse5010.mse.cornell.edu'
 )
-
-ACCOUNT_EMAIL_REQUIRED = False
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_VERIFICATION = 'none'

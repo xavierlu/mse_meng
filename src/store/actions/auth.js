@@ -40,10 +40,18 @@ export const authLogin = (username, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
-      .post(`http://127.0.0.1:8000/rest-auth/login/`, {
-        username: username,
-        password: password
-      })
+      .post(
+        `${
+          window.location.hostname === "localhost" ||
+          window.location.hostname === "127.0.0.1"
+            ? "http://127.0.0.1:8000"
+            : "https://mse5010.herokuapp.com"
+        }/rest-auth/login/`,
+        {
+          username: username,
+          password: password
+        }
+      )
       .then(res => {
         console.log(res.data);
         const user = {
@@ -59,7 +67,6 @@ export const authLogin = (username, password) => {
         dispatch(checkAuthTimeout(3600));
       })
       .catch(err => {
-        console.log(err.response.data.non_field_errors);
         dispatch(authFail(err));
       });
   };
