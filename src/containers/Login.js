@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Spin, Row, Col, Alert } from "antd";
+import { Form, Icon, Input, Button, Spin, Row, Col, message } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
@@ -17,28 +17,22 @@ class NormalLoginForm extends React.Component {
     });
   };
 
-  render() {
-    let errorMessage = null;
-    if (this.props.error) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.error !== this.props.error && this.props.error) {
       console.log(this.props.error.response.data);
 
-      errorMessage = (
-        <div>
-          <Alert
-            message="Error"
-            description={
-              this.props.error.response.data.non_field_errors
-                ? "Unable to log in with provided credentials."
-                : "Somethine went wrong"
-            }
-            type="error"
-            showIcon
-          />
-          <br />
-        </div>
+      message.error(
+        this.props.error.response.data.non_field_errors
+          ? "Unable to log in with provided credentials."
+          : "Somethine went wrong"
       );
-    } else {
-      if (this.props.token !== null) this.props.history.push("/");
+    }
+  }
+
+  render() {
+    let errorMessage = null;
+    if (!this.props.error && this.props.token !== null) {
+      this.props.history.push("/");
     }
 
     const { getFieldDecorator } = this.props.form;

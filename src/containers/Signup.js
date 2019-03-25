@@ -56,14 +56,16 @@ class RegistrationForm extends React.Component {
     return e && e.fileList;
   };
 
-  render() {
-    const { getFieldDecorator } = this.props.form;
-
-    if (this.props.error) {
+  componentDidUpdate(prevProps) {
+    if (prevProps.error !== this.props.error && this.props.error) {
       for (var prop in this.props.error.response.data) {
         message.error(this.props.error.response.data[prop]);
       }
     }
+  }
+
+  render() {
+    const { getFieldDecorator } = this.props.form;
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -168,21 +170,9 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (
-      username,
-      email,
-      password1,
-      password2,
-      is_student
-    ) =>
+    onAuth: (username, email, password1, password2, is_student) =>
       dispatch(
-        actions.authSignup(
-          username,
-          email,
-          password1,
-          password2,
-          is_student
-        )
+        actions.authSignup(username, email, password1, password2, is_student)
       )
   };
 };
