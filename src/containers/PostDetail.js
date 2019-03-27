@@ -1,8 +1,9 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Button } from "antd";
+import { Card, Button, DatePicker } from "antd";
 import { getPostDetail } from "../store/actions/posts";
 import { Link, withRouter } from "react-router-dom";
+import moment from "moment";
 
 import Hoc from "../hoc/hoc";
 import QA from "./QA";
@@ -29,6 +30,7 @@ class PostDetail extends React.Component {
       description,
       studentNeeded,
       requirements,
+      deadline,
       email,
       phoneNumber
     } = this.props.currentPost;
@@ -54,6 +56,12 @@ class PostDetail extends React.Component {
             </Card>
             <Card type="inner" title="requirements">
               {requirements}
+            </Card>
+            <Card type="inner" title="deadline">
+              <DatePicker
+                defaultValue={moment(deadline, "YYYY-MM-DD")}
+                disabled
+              />
             </Card>
             <Card type="inner" title="e-mail">
               {email}
