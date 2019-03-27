@@ -20,6 +20,7 @@ class PostSerializer(serializers.ModelSerializer):
         post.description = data['description']
         post.studentNeeded = data['studentNeeded']
         post.requirements = data['requirements']
+        post.deadline = data['deadline']
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
 

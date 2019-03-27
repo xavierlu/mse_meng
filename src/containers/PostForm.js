@@ -11,8 +11,10 @@ import {
   AutoComplete,
   message,
   Tooltip,
-  InputNumber
+  InputNumber,
+  DatePicker
 } from "antd";
+import moment from "moment";
 
 import { postProject, editPost } from "../store/actions/posts";
 
@@ -29,6 +31,7 @@ class PostForm extends React.Component {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
+        // Should format date value before submit.
         const project = {
           company: this.props.username,
           title: values.title,
@@ -36,6 +39,7 @@ class PostForm extends React.Component {
           description: values.description,
           studentNeeded: values.studentNeeded,
           requirements: values.requirements,
+          deadline: values["date-picker"].format("YYYY-MM-DD"),
           email: values.email,
           phoneNumber: values.phoneNumber,
           file: values.dragger
@@ -221,6 +225,16 @@ class PostForm extends React.Component {
               : null
           })(<TextArea rows={4} />)}
         </Form.Item>
+
+        <Form.Item {...formItemLayout} label="Deadline">
+          {getFieldDecorator("date-picker", {
+            rules: [{ required: true, message: "Please select a date!" }],
+            initialValue: this.props.currentPost
+              ? moment(this.props.currentPost.deadline, "YYYY-MM-DD")
+              : null
+          })(<DatePicker />)}
+        </Form.Item>
+
         <Form.Item {...formItemLayout} label="Files">
           <div className="dropbox">
             {getFieldDecorator("dragger", {

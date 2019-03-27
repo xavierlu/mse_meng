@@ -1,9 +1,11 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Skeleton, Table, Tooltip } from "antd";
+import { Button, Skeleton, Table, Tooltip, Typography, Divider } from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
+
+const { Title, Paragraph, Text } = Typography;
 
 class PostList extends React.PureComponent {
   componentDidMount() {
@@ -60,7 +62,36 @@ class PostList extends React.PureComponent {
     return (
       <Hoc>
         {this.props.token === undefined || this.props.token === null ? (
-          <Hoc>please login first</Hoc>
+          <Hoc>
+            <Typography>
+              <Title level={2}>MSE 5010 Speical Project</Title>
+              <Paragraph>Master of Engineering research project.</Paragraph>
+              <Paragraph>
+                <Text strong>When Offered: </Text>
+                Fall, Spring. <br />
+                <Text strong>Course Attribute: </Text> (CU-UGR) <br />
+                <Text strong>Contact:</Text>
+                Alex Deyhim (<Text copyable>akd9@cornell.edu</Text>)
+              </Paragraph>
+              <Divider />
+
+              <Title level={2}>Guidelines and Resources</Title>
+              <Paragraph>
+                <ul>
+                  <li>
+                    <a href="https://classes.cornell.edu/browse/roster/FA18/class/MSE/5010">
+                      Class Roster
+                    </a>
+                  </li>
+                  <li>
+                    <a href="https://www.mse.cornell.edu/mse/programs/graduate-programs/master-engineering">
+                      MS&E M.Eng Website
+                    </a>
+                  </li>
+                </ul>
+              </Paragraph>
+            </Typography>
+          </Hoc>
         ) : (
           <Hoc>
             {this.props.loading ? (

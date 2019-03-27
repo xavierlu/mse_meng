@@ -57,13 +57,14 @@ class CustomLayout extends React.Component {
                   </span>
                   <Link to="/" />
                 </Menu.Item>
+                {/* 
                 {this.props.isAuthenticated ? (
                   <Menu.Item key="/profile/">
                     <Icon type="user" />
                     <span> Profile </span>
                     <Link to="/profile/" />
                   </Menu.Item>
-                ) : null}
+                ) : null}*/}
                 {this.props.isAuthenticated && this.props.is_company ? (
                   <Menu.Item key="/post/">
                     <Icon type="form" />
