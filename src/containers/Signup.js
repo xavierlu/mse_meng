@@ -22,6 +22,9 @@ class RegistrationForm extends React.Component {
           values.confirm,
           false
         );
+        message.loading("Registering", 2, () =>
+          message.success("Successfully registered", 2)
+        );
       }
     });
   };
