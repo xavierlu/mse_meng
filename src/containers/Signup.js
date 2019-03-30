@@ -22,9 +22,6 @@ class RegistrationForm extends React.Component {
           values.confirm,
           false
         );
-        message.loading("Registering", 2, () =>
-          message.success("Successfully registered", 2)
-        );
       }
     });
   };
@@ -64,6 +61,10 @@ class RegistrationForm extends React.Component {
       for (var prop in this.props.error.response.data) {
         message.error(this.props.error.response.data[prop]);
       }
+    } else if (prevProps.loading != this.props.loading && this.props.token) {
+      message.loading("Registering", 2, () =>
+        message.success("Successfully registered", 2)
+      );
     }
   }
 
@@ -167,7 +168,8 @@ const WrappedRegistrationForm = Form.create()(RegistrationForm);
 const mapStateToProps = state => {
   return {
     loading: state.auth.loading,
-    error: state.auth.error
+    error: state.auth.error,
+    token: state.auth.token
   };
 };
 
