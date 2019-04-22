@@ -6,15 +6,16 @@ import {
   Divider,
   Icon,
   Upload,
-  Checkbox,
   Button,
   AutoComplete,
   message,
   Tooltip,
   InputNumber,
-  DatePicker
+  Checkbox,
+  Row,
+  Col,
+  Radio
 } from "antd";
-import moment from "moment";
 
 import { postProject, editPost } from "../store/actions/posts";
 
@@ -39,7 +40,8 @@ class PostForm extends React.Component {
           description: values.description,
           studentNeeded: values.studentNeeded,
           requirements: values.requirements,
-          deadline: values["date-picker"].format("YYYY-MM-DD"),
+          semester: values.semester,
+          internship: values.internship,
           email: values.email,
           phoneNumber: values.phoneNumber,
           file: values.dragger
@@ -226,13 +228,47 @@ class PostForm extends React.Component {
           })(<TextArea rows={4} />)}
         </Form.Item>
 
-        <Form.Item {...formItemLayout} label="Deadline">
-          {getFieldDecorator("date-picker", {
-            rules: [{ required: true, message: "Please select a date!" }],
+        <Form.Item {...formItemLayout} label="Semester Offered">
+          {getFieldDecorator("semester", {
             initialValue: this.props.currentPost
-              ? moment(this.props.currentPost.deadline, "YYYY-MM-DD")
-              : null
-          })(<DatePicker />)}
+              ? (this.props.currentPost.semester + "")
+                  .substring(
+                    2,
+                    (this.props.currentPost.semester + "").length - 2
+                  )
+                  .split("', '")
+              : []
+          })(
+            <Checkbox.Group style={{ width: "100%" }}>
+              <Row>
+                <Col>
+                  <Checkbox value="spring">Spring</Checkbox>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Checkbox value="summer">Summer</Checkbox>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Checkbox value="fall">Fall</Checkbox>
+                </Col>
+              </Row>
+            </Checkbox.Group>
+          )}
+        </Form.Item>
+
+        <Form.Item {...formItemLayout} label="Internship Opportunity?">
+          {getFieldDecorator("internship", {
+            initialValue: this.props.currentPost.internship
+          })(
+            <Radio.Group>
+              <Radio value="yes">Yes</Radio>
+              <Radio value="no">No</Radio>
+              <Radio value="notsure">Not Sure</Radio>
+            </Radio.Group>
+          )}
         </Form.Item>
 
         <Form.Item {...formItemLayout} label="Files">

@@ -30,7 +30,8 @@ class PostDetail extends React.Component {
       description,
       studentNeeded,
       requirements,
-      deadline,
+      semester,
+      internship,
       email,
       phoneNumber
     } = this.props.currentPost;
@@ -57,11 +58,11 @@ class PostDetail extends React.Component {
             <Card type="inner" title="requirements">
               {requirements}
             </Card>
-            <Card type="inner" title="deadline">
-              <DatePicker
-                defaultValue={moment(deadline, "YYYY-MM-DD")}
-                disabled
-              />
+            <Card type="inner" title="semester offered">
+              {semester}
+            </Card>
+            <Card type="inner" title="internship offered">
+              {internship}
             </Card>
             <Card type="inner" title="e-mail">
               {email}
