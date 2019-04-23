@@ -8,11 +8,35 @@ const FormItem = Form.Item;
 const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
 class NormalLoginForm extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      isStudentLogin: false,
+      netid: null
+    };
+  }
+
+  setStudent = (flag, id) => {
+    this.setState({ isStudentLogin: flag, netid: id });
+  };
+
   handleSubmit = e => {
     e.preventDefault();
-    this.props.form.validateFields((err, values) => {
+    this.props.form.validateFields(["email", "password"], (err, values) => {
       if (!err) {
-        this.props.onAuth(values.userName, values.password);
+        this.props.onAuth(values.email, values.password);
+        this.setStudent(false, null);
+      }
+    });
+  };
+
+  handleStudentLogin = e2 => {
+    e2.preventDefault();
+    this.props.form.validateFields(["netid"], (err, values) => {
+      if (!err) {
+        this.props.onAuth(values.netid + "@cornell.edu", values.netid);
+        this.setStudent(true, values.netid);
       }
     });
   };
@@ -26,6 +50,16 @@ class NormalLoginForm extends React.Component {
           ? "Unable to log in with provided credentials."
           : "Somethine went wrong"
       );
+
+      if (this.state.isStudentLogin) {
+        this.props.onRegister(
+          this.state.netid,
+          this.state.netid + "@cornell.edu",
+          this.state.netid,
+          this.state.netid,
+          true
+        );
+      }
     }
   }
 
@@ -42,10 +76,42 @@ class NormalLoginForm extends React.Component {
           Cornell Student
           <br />
           <br />
-          <Button type="danger">NetID Login</Button>
+          <Form
+            onSubmit={this.handleStudentLogin}
+            className="login-form-student"
+          >
+            <FormItem>
+              {getFieldDecorator("netid", {
+                rules: [
+                  {
+                    required: true,
+                    message: "Please input your NetID!"
+                  }
+                ]
+              })(
+                <Input
+                  style={{ width: 120, textAlign: "center" }}
+                  prefix={
+                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                  }
+                  placeholder="NetID"
+                />
+              )}
+            </FormItem>
+
+            <FormItem>
+              <Button
+                type="danger"
+                htmlType="submit"
+                style={{ marginRight: "12px" }}
+              >
+                Login
+              </Button>
+            </FormItem>
+          </Form>
         </Col>
         <Col span={12}>
-          All others use this Login.
+          Companies use this Login.
           <br /> <br />
           {errorMessage}
           {this.props.loading ? (
@@ -53,16 +119,23 @@ class NormalLoginForm extends React.Component {
           ) : (
             <Form onSubmit={this.handleSubmit} className="login-form">
               <FormItem>
-                {getFieldDecorator("userName", {
+                {getFieldDecorator("email", {
                   rules: [
-                    { required: true, message: "Please input your username!" }
+                    {
+                      type: "email",
+                      message: "The input is not valid E-mail!"
+                    },
+                    {
+                      required: true,
+                      message: "Please input your E-mail!"
+                    }
                   ]
                 })(
                   <Input
                     prefix={
                       <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                     }
-                    placeholder="Username"
+                    placeholder="email"
                   />
                 )}
               </FormItem>
@@ -118,8 +191,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, password) =>
-      dispatch(actions.authLogin(username, password))
+    onAuth: (email, password) => dispatch(actions.authLogin(email, password)),
+    onRegister: (username, email, password1, password2, is_student) =>
+      dispatch(
+        actions.authSignup(username, email, password1, password2, is_student)
+      )
   };
 };
 

@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Card, Button, DatePicker } from "antd";
+import { Form, Divider, Typography } from "antd";
 import { getPostDetail } from "../store/actions/posts";
-import { Link, withRouter } from "react-router-dom";
-import moment from "moment";
+import { withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
-import QA from "./QA";
 import PostForm from "./PostForm";
 
 class PostDetail extends React.Component {
@@ -24,56 +22,80 @@ class PostDetail extends React.Component {
     }
   }
   render() {
-    const {
-      title,
-      abstract,
-      description,
-      studentNeeded,
-      requirements,
-      semester,
-      internship,
-      email,
-      phoneNumber
-    } = this.props.currentPost;
+    const { Text, Paragraph } = Typography;
+
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 10 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 10 },
+        sm: { span: 12 }
+      }
+    };
+
     return (
       <Hoc>
         {this.props.is_student ? (
-          <Card
-            title={title}
-            extra={
-              <Link to="/">
-                <Button icon="left-circle"> Back </Button>
-              </Link>
-            }
-          >
-            <Card type="inner" title="Abstract">
-              {abstract}
-            </Card>
-            <Card type="inner" title="Description">
-              {description}
-            </Card>
-            <Card type="inner" title="studentNeeded">
-              {studentNeeded}
-            </Card>
-            <Card type="inner" title="requirements">
-              {requirements}
-            </Card>
-            <Card type="inner" title="semester offered">
-              {semester}
-            </Card>
-            <Card type="inner" title="internship offered">
-              {internship}
-            </Card>
-            <Card type="inner" title="e-mail">
-              {email}
-            </Card>
-            <Card type="inner" title="Phone Number">
-              {phoneNumber}
-            </Card>
-            <Card type="inner" title="Q&A">
-              <QA />
-            </Card>
-          </Card>
+          <Typography>
+            <Divider orientation="left">Project Information</Divider>
+            <Form.Item {...formItemLayout} label="Company">
+              <Text>{this.props.currentPost.company}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Title">
+              <Text>{this.props.currentPost.title}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Abstract">
+              <Paragraph ellipsis={{ rows: 2, expandable: true }}>
+                {this.props.currentPost.abstract}
+              </Paragraph>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Description">
+              <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                {this.props.currentPost.description}
+              </Paragraph>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Student Needed">
+              <Text>{this.props.currentPost.studentNeeded}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Requirements">
+              <Paragraph ellipsis={{ rows: 3, expandable: true }}>
+                {this.props.currentPost.requirements}
+              </Paragraph>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Semester(s) Offered">
+              <Text>
+                {(this.props.currentPost.semester + "")
+                  .substring(
+                    1,
+                    (this.props.currentPost.semester + "").length - 1
+                  )
+                  .split(",")
+                  .filter(item => item.trim().length >= 6)}
+              </Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Internship Opportunity?">
+              <Text>{this.props.currentPost.internship}</Text>
+            </Form.Item>
+
+            <Divider orientation="left">Contact Information</Divider>
+
+            <Form.Item {...formItemLayout} label="email">
+              <Text>{this.props.currentPost.email}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Phone number">
+              <Text>{this.props.currentPost.phoneNumber}</Text>
+            </Form.Item>
+          </Typography>
         ) : (
           <PostForm currentPost={this.props.currentPost} />
         )}

@@ -110,6 +110,7 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     username: state.auth.username,
+    email: state.auth.email,
     posts: state.posts.posts,
     loading: state.posts.loading,
     is_company: state.auth.is_company

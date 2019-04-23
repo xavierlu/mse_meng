@@ -158,7 +158,7 @@ class PostForm extends React.Component {
             </span>
           }
         >
-          <Input value={this.props.username} disabled="true" />
+          <p>{this.props.username}</p>
         </Form.Item>
         <Form.Item {...formItemLayout} label="Title">
           {getFieldDecorator("title", {
@@ -261,7 +261,9 @@ class PostForm extends React.Component {
 
         <Form.Item {...formItemLayout} label="Internship Opportunity?">
           {getFieldDecorator("internship", {
-            initialValue: this.props.currentPost.internship
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.internship
+              : "notsure"
           })(
             <Radio.Group>
               <Radio value="yes">Yes</Radio>

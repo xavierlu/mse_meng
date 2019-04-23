@@ -19,6 +19,8 @@ class CustomRegisterSerializer(RegisterSerializer):
     class Meta:
         model = User
         fields = ('email', 'username', 'password', 'is_student', 'is_company')
+        extra_kwargs = {"username": {"error_messages": {
+            "non_field_errors": "Give yourself a username"}}}
 
     def get_cleaned_data(self):
         return {
@@ -34,6 +36,7 @@ class CustomRegisterSerializer(RegisterSerializer):
         adapter = get_adapter()
         user = adapter.new_user(request)
         self.cleaned_data = self.get_cleaned_data()
+        user.username = self.cleaned_data.get('username')
         user.is_student = self.cleaned_data.get('is_student')
         user.is_company = self.cleaned_data.get('is_company')
         user.save()
@@ -52,9 +55,11 @@ class TokenSerializer(serializers.ModelSerializer):
         serializer_data = UserSerializer(
             obj.user
         ).data
+        username = serializer_data.get('username')
         is_student = serializer_data.get('is_student')
         is_company = serializer_data.get('is_company')
         return {
+            'username': username,
             'is_student': is_student,
             'is_company': is_company
         }

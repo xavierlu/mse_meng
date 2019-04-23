@@ -36,7 +36,7 @@ export const checkAuthTimeout = expirationTime => {
   };
 };
 
-export const authLogin = (username, password) => {
+export const authLogin = (email, password) => {
   return dispatch => {
     dispatch(authStart());
     axios
@@ -48,20 +48,21 @@ export const authLogin = (username, password) => {
             : "https://mse5010.herokuapp.com"
         }/rest-auth/login/`,
         {
-          username: username,
+          email: email,
           password: password
         }
       )
       .then(res => {
-        console.log(res.data);
         const user = {
           token: res.data.key,
-          username,
+          username: res.data.user_type.username,
+          email: email,
           userId: res.data.user,
           is_student: res.data.user_type.is_student,
           is_company: res.data.user_type.is_company,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
+        console.log(user);
         localStorage.setItem("user", JSON.stringify(user));
         dispatch(authSuccess(user));
         dispatch(checkAuthTimeout(3600));
