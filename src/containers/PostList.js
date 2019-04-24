@@ -10,14 +10,14 @@ const { Title, Paragraph, Text } = Typography;
 class PostList extends React.PureComponent {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
-      this.props.getPosts(this.props.token);
+      this.props.getPosts(this.props.token, this.props.username);
     }
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
-        this.props.getPosts(newProps.token);
+        this.props.getPosts(newProps.token, this.props.username);
       }
     }
   }
@@ -128,7 +128,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getPosts: token => dispatch(actions.getPosts(token))
+    getPosts: (token, username) => dispatch(actions.getPosts(token, username))
   };
 };
 
