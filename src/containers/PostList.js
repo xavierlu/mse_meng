@@ -27,7 +27,7 @@ class PostList extends React.PureComponent {
       <Hoc>
         {post.company !== this.props.username && this.props.is_company ? (
           <Tooltip title={"You can only edit your own post :("}>
-            <Button type="dashed" type="danger" icon="frown" />
+            <Button type="danger" icon="frown" />
           </Tooltip>
         ) : (
           <Link to={`/posts/${post.id}`}>
@@ -62,44 +62,53 @@ class PostList extends React.PureComponent {
     return (
       <Hoc>
         {this.props.token === undefined || this.props.token === null ? (
-          <Hoc>
-            <Typography>
-              <Title level={2}>MSE 5010 Speical Project</Title>
-              <Paragraph>Master of Engineering research project.</Paragraph>
-              <Paragraph>
-                <Text strong>When Offered: </Text>
-                Fall, Spring. <br />
-                <Text strong>Course Attribute: </Text> (CU-UGR) <br />
-                <Text strong>Contact:</Text>
-                Alex Deyhim (<Text copyable>akd9@cornell.edu</Text>)
-              </Paragraph>
-              <Divider />
+          <Typography>
+            <Title level={2}>MSE 5010 Speical Project</Title>
+            <Paragraph>Master of Engineering research project.</Paragraph>
+            <Paragraph>
+              <Text strong>When Offered: </Text>
+              Fall, Spring. <br />
+              <Text strong>Course Attribute: </Text> (CU-UGR) <br />
+              <Text strong>Contact:</Text>
+              Alex Deyhim (<Text copyable>akd9@cornell.edu</Text>)
+            </Paragraph>
+            <Divider />
 
-              <Title level={2}>Guidelines and Resources</Title>
-              <Paragraph>
-                <ul>
-                  <li>
-                    <a href="https://classes.cornell.edu/browse/roster/FA18/class/MSE/5010">
-                      Class Roster
-                    </a>
-                  </li>
-                  <li>
-                    <a href="https://www.mse.cornell.edu/mse/programs/graduate-programs/master-engineering">
-                      MS&E M.Eng Website
-                    </a>
-                  </li>
-                </ul>
-              </Paragraph>
-            </Typography>
-          </Hoc>
+            <Title level={3}>For Student</Title>
+            <Paragraph>Please click on "Student Login" on the left</Paragraph>
+
+            <Title level={3}>For Companies/Corporates</Title>
+            <Paragraph>
+              Please click on "Company Login" on the left. If this is your first
+              time using this site, please register an account by clicking the
+              SignUp button after clicking "Company Login" on the left
+            </Paragraph>
+
+            <Divider />
+            <Title level={2}>Guidelines and Resources</Title>
+            <Paragraph>
+              <ul>
+                <li>
+                  <a href="https://classes.cornell.edu/browse/roster/FA18/class/MSE/5010">
+                    Class Roster
+                  </a>
+                </li>
+                <li>
+                  <a href="https://www.mse.cornell.edu/mse/programs/graduate-programs/master-engineering">
+                    MS&E M.Eng Website
+                  </a>
+                </li>
+              </ul>
+            </Paragraph>
+          </Typography>
         ) : (
-          <Hoc>
+          <div>
             {this.props.loading ? (
               <Skeleton active />
             ) : (
               <Table columns={columns} dataSource={this.props.posts} />
             )}
-          </Hoc>
+          </div>
         )}
       </Hoc>
     );

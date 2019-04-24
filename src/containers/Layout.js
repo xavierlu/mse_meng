@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import CE_MSE_LOGO from "./assets/CE_MSE.png";
 import CORNELL_LOGO_RED from "./assets/cuseal_full_red240.png";
+import Hoc from "../hoc/hoc";
 
 const { Header, Content, Footer, Sider } = Layout;
 
@@ -81,8 +82,18 @@ class CustomLayout extends React.Component {
                 ) : (
                   <Menu.Item key="/login">
                     <Icon type="login" />
-                    <span> Login </span>
+                    <span> Student Login </span>
                     <Link to="/login" />
+                  </Menu.Item>
+                )}
+
+                {this.props.isAuthenticated ? (
+                  <Menu.Item />
+                ) : (
+                  <Menu.Item key="/login-company">
+                    <Icon type="login" />
+                    <span> Company Login </span>
+                    <Link to="/login-company" />
                   </Menu.Item>
                 )}
               </Menu>

@@ -70,21 +70,44 @@ class RegistrationForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
+    const formItemLayout = {
+      labelCol: {
+        xs: { span: 10 },
+        sm: { span: 8 }
+      },
+      wrapperCol: {
+        xs: { span: 10 },
+        sm: { span: 12 }
+      }
+    };
 
+    const tailFormItemLayout = {
+      wrapperCol: {
+        xs: {
+          span: 24,
+          offset: 0
+        },
+        sm: {
+          span: 16,
+          offset: 8
+        }
+      }
+    };
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <FormItem>
+      <Form {...formItemLayout} onSubmit={this.handleSubmit}>
+        <FormItem label="Company Name">
           {getFieldDecorator("userName", {
             rules: [{ required: true, message: "Please input your username!" }]
           })(
             <Input
+              size="large"
               prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
               placeholder="Company Name"
             />
           )}
         </FormItem>
 
-        <FormItem>
+        <FormItem label="E-mail">
           {getFieldDecorator("email", {
             rules: [
               {
@@ -98,13 +121,14 @@ class RegistrationForm extends React.Component {
             ]
           })(
             <Input
+              size="large"
               prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
               placeholder="Email"
             />
           )}
         </FormItem>
 
-        <FormItem>
+        <FormItem label="Password">
           {getFieldDecorator("password", {
             rules: [
               {
@@ -117,6 +141,7 @@ class RegistrationForm extends React.Component {
             ]
           })(
             <Input
+              size="large"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="password"
               placeholder="Password"
@@ -124,7 +149,7 @@ class RegistrationForm extends React.Component {
           )}
         </FormItem>
 
-        <FormItem>
+        <FormItem label="Confirm Password">
           {getFieldDecorator("confirm", {
             rules: [
               {
@@ -137,6 +162,7 @@ class RegistrationForm extends React.Component {
             ]
           })(
             <Input
+              size="large"
               prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
               type="password"
               placeholder="Password"
@@ -145,18 +171,18 @@ class RegistrationForm extends React.Component {
           )}
         </FormItem>
 
-        <FormItem>
+        <FormItem {...tailFormItemLayout}>
           <Button
-            type="primary"
+            type="danger"
+            size="large"
             htmlType="submit"
-            style={{ marginRight: "10px" }}
+            style={{ marginRight: "20px" }}
           >
-            Signup
+            Register
           </Button>
-          Or&nbsp;
-          <NavLink style={{ marginLeft: "10px" }} to="/login/">
-            login
-          </NavLink>
+          <Button type="primary" size="large">
+            <NavLink to="/login-company/">Back to login</NavLink>
+          </Button>
         </FormItem>
       </Form>
     );

@@ -1,13 +1,11 @@
 import React from "react";
-import { Form, Icon, Input, Button, Spin, Row, Col, message } from "antd";
+import { Form, Icon, Input, Button, Divider, Row, Col, message } from "antd";
 import { connect } from "react-redux";
-import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
 
 const FormItem = Form.Item;
-const antIcon = <Icon type="loading" style={{ fontSize: 24 }} spin />;
 
-class NormalLoginForm extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
 
@@ -45,12 +43,6 @@ class NormalLoginForm extends React.Component {
     if (prevProps.error !== this.props.error && this.props.error) {
       console.log(this.props.error.response.data);
 
-      message.error(
-        this.props.error.response.data.non_field_errors
-          ? "Unable to log in with provided credentials."
-          : "Somethine went wrong"
-      );
-
       if (this.state.isStudentLogin) {
         this.props.onRegister(
           this.state.netid,
@@ -64,7 +56,6 @@ class NormalLoginForm extends React.Component {
   }
 
   render() {
-    let errorMessage = null;
     if (!this.props.error && this.props.token !== null) {
       this.props.history.push("/");
     }
@@ -73,14 +64,15 @@ class NormalLoginForm extends React.Component {
     return (
       <Row gutter={40} type="flex" align="middle">
         <Col span={12} type="flex" align="middle">
-          Cornell Student
-          <br />
-          <br />
+          <Divider orientation="left">Student NetID Login</Divider>
+
           <Form
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 12 }}
             onSubmit={this.handleStudentLogin}
             className="login-form-student"
           >
-            <FormItem>
+            <FormItem label="NetID">
               {getFieldDecorator("netid", {
                 rules: [
                   {
@@ -90,7 +82,7 @@ class NormalLoginForm extends React.Component {
                 ]
               })(
                 <Input
-                  style={{ width: 120, textAlign: "center" }}
+                  size="large"
                   prefix={
                     <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
@@ -99,9 +91,10 @@ class NormalLoginForm extends React.Component {
               )}
             </FormItem>
 
-            <FormItem>
+            <FormItem wrapperCol={{ span: 12, offset: 5 }}>
               <Button
                 type="danger"
+                size="large"
                 htmlType="submit"
                 style={{ marginRight: "12px" }}
               >
@@ -110,76 +103,12 @@ class NormalLoginForm extends React.Component {
             </FormItem>
           </Form>
         </Col>
-        <Col span={12}>
-          Companies use this Login.
-          <br /> <br />
-          {errorMessage}
-          {this.props.loading ? (
-            <Spin indicator={antIcon} />
-          ) : (
-            <Form onSubmit={this.handleSubmit} className="login-form">
-              <FormItem>
-                {getFieldDecorator("email", {
-                  rules: [
-                    {
-                      type: "email",
-                      message: "The input is not valid E-mail!"
-                    },
-                    {
-                      required: true,
-                      message: "Please input your E-mail!"
-                    }
-                  ]
-                })(
-                  <Input
-                    prefix={
-                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                    }
-                    placeholder="email"
-                  />
-                )}
-              </FormItem>
-              <FormItem>
-                {getFieldDecorator("password", {
-                  rules: [
-                    { required: true, message: "Please input your Password!" }
-                  ]
-                })(
-                  <Input
-                    prefix={
-                      <Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />
-                    }
-                    type="password"
-                    placeholder="Password"
-                  />
-                )}
-              </FormItem>
-
-              <FormItem>
-                <Button
-                  type="primary"
-                  htmlType="submit"
-                  style={{ marginRight: "12px" }}
-                >
-                  Login
-                </Button>
-                Or
-                <NavLink
-                  style={{ marginLeft: "2px", marginRight: "10px" }}
-                  to="/signup/"
-                >
-                  Signup
-                </NavLink>
-              </FormItem>
-            </Form>
-          )}
-        </Col>
       </Row>
     );
   }
 }
 
-const WrappedNormalLoginForm = Form.create()(NormalLoginForm);
+const WrappedNormalLoginForm = Form.create()(Login);
 
 const mapStateToProps = state => {
   return {
