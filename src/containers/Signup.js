@@ -69,6 +69,10 @@ class RegistrationForm extends React.Component {
   }
 
   render() {
+    if (!this.props.error && this.props.token !== null) {
+      this.props.history.push("/");
+    }
+
     const { getFieldDecorator } = this.props.form;
     const formItemLayout = {
       labelCol: {
