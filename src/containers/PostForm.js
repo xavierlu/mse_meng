@@ -42,6 +42,7 @@ class PostForm extends React.Component {
           requirements: values.requirements,
           semester: values.semester,
           internship: values.internship,
+          name: values.name,
           email: values.email,
           phoneNumber: values.phoneNumber,
           file: values.dragger
@@ -293,6 +294,19 @@ class PostForm extends React.Component {
           </div>
         </Form.Item>
         <Divider orientation="left">Contact Information</Divider>
+        <Form.Item {...formItemLayout} label="Name">
+          {getFieldDecorator("name", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your name!"
+              }
+            ],
+            initialValue: this.props.currentPost
+              ? this.props.currentPost.name
+              : this.props.name
+          })(<Input />)}
+        </Form.Item>
         <Form.Item {...formItemLayout} label="E-mail">
           {getFieldDecorator("email", {
             rules: [
@@ -307,7 +321,7 @@ class PostForm extends React.Component {
             ],
             initialValue: this.props.currentPost
               ? this.props.currentPost.email
-              : null
+              : this.props.email
           })(<Input />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Phone Number">
@@ -317,7 +331,7 @@ class PostForm extends React.Component {
             ],
             initialValue: this.props.currentPost
               ? this.props.currentPost.phoneNumber
-              : null
+              : this.props.phoneNumber
           })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Website">
@@ -361,6 +375,9 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     username: state.auth.username,
+    email: state.auth.email,
+    name: state.auth.name,
+    phoneNumber: state.auth.phoneNumber,
     loading: state.posts.loading
   };
 };

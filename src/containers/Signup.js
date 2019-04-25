@@ -18,6 +18,8 @@ class RegistrationForm extends React.Component {
         this.props.onAuth(
           values.userName,
           values.email,
+          values.phoneNumber,
+          values.name,
           values.password,
           values.confirm,
           false
@@ -105,8 +107,25 @@ class RegistrationForm extends React.Component {
           })(
             <Input
               size="large"
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              prefix={<Icon type="team" style={{ color: "rgba(0,0,0,.25)" }} />}
               placeholder="Company Name"
+            />
+          )}
+        </FormItem>
+
+        <FormItem label="Name">
+          {getFieldDecorator("name", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your name!"
+              }
+            ]
+          })(
+            <Input
+              size="large"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="name"
             />
           )}
         </FormItem>
@@ -127,7 +146,26 @@ class RegistrationForm extends React.Component {
             <Input
               size="large"
               prefix={<Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Email"
+              placeholder="email"
+            />
+          )}
+        </FormItem>
+
+        <FormItem label="Phone Number">
+          {getFieldDecorator("phoneNumber", {
+            rules: [
+              {
+                required: true,
+                message: "Please input your phone number!"
+              }
+            ]
+          })(
+            <Input
+              size="large"
+              prefix={
+                <Icon type="phone" style={{ color: "rgba(0,0,0,.25)" }} />
+              }
+              placeholder="phone name"
             />
           )}
         </FormItem>
@@ -205,9 +243,25 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onAuth: (username, email, password1, password2, is_student) =>
+    onAuth: (
+      username,
+      email,
+      phoneNumber,
+      name,
+      password1,
+      password2,
+      is_student
+    ) =>
       dispatch(
-        actions.authSignup(username, email, password1, password2, is_student)
+        actions.authSignup(
+          username,
+          email,
+          phoneNumber,
+          name,
+          password1,
+          password2,
+          is_student
+        )
       )
   };
 };

@@ -57,6 +57,8 @@ export const authLogin = (email, password) => {
           token: res.data.key,
           username: res.data.user_type.username,
           email: email,
+          phoneNumber: res.data.user_type.phoneNumber,
+          name: res.data.user_type.name,
           userId: res.data.user,
           is_student: res.data.user_type.is_student,
           is_company: res.data.user_type.is_company,
@@ -76,6 +78,8 @@ export const authLogin = (email, password) => {
 export const authSignup = (
   username,
   email,
+  phoneNumber,
+  name,
   password1,
   password2,
   is_student
@@ -85,6 +89,8 @@ export const authSignup = (
     const user = {
       username,
       email,
+      phoneNumber,
+      name,
       password1,
       password2,
       is_student,
@@ -105,6 +111,9 @@ export const authSignup = (
         const user = {
           token: res.data.key,
           username,
+          email,
+          phoneNumber,
+          name,
           userId: res.data.user,
           is_student,
           is_company: !is_student,

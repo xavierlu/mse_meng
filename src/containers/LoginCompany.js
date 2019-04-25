@@ -94,7 +94,7 @@ class LoginCompany extends React.Component {
                 <Input
                   size="large"
                   prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    <Icon type="mail" style={{ color: "rgba(0,0,0,.25)" }} />
                   }
                   placeholder="email"
                 />

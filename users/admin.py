@@ -8,7 +8,7 @@ from .models import User
 class UserAdmin(BaseUserAdmin):
     add_fieldsets = (
         (None, {
-            'fields': ('email', 'username', 'is_student', 'is_company', 'password1', 'password2')
+            'fields': ('email', 'username', 'phoneNumber', 'name', 'is_student', 'is_company', 'password1', 'password2')
         }),
         ('Permissions', {
             'fields': ('is_superuser', 'is_staff')
@@ -16,13 +16,14 @@ class UserAdmin(BaseUserAdmin):
     )
     fieldsets = (
         (None, {
-            'fields': ('email', 'username', 'is_student', 'is_company', 'password')
+            'fields': ('email', 'username', 'phoneNumber', 'name', 'is_student', 'is_company', 'password')
         }),
         ('Permissions', {
             'fields': ('is_superuser', 'is_staff')
         })
     )
-    list_display = ['email', 'username', 'is_student', 'is_company']
+    list_display = ['email', 'username', 'phoneNumber',
+                    'name', 'is_student', 'is_company']
     search_field = ('email', 'username')
     ordering = ('email',)
 
