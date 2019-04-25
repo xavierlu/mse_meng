@@ -11,7 +11,7 @@ class PostList extends React.PureComponent {
   componentDidMount() {
     if (this.props.token !== undefined && this.props.token !== null) {
       let user = JSON.parse(localStorage.getItem("user"));
-      this.props.getPosts(this.props.token, user.username, user.is_company);
+      this.props.getPosts(user.token, user.username, user.is_company);
     }
   }
 
@@ -19,7 +19,7 @@ class PostList extends React.PureComponent {
     if (newProps.token !== this.props.token) {
       if (newProps.token !== undefined && newProps.token !== null) {
         let user = JSON.parse(localStorage.getItem("user"));
-        this.props.getPosts(this.props.token, user.username, user.is_company);
+        this.props.getPosts(user.token, user.username, user.is_company);
       }
     }
   }

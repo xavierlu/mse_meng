@@ -1,5 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
+import axios from "axios";
+import { storage } from "../firebase";
 import {
   Form,
   Input,
@@ -14,7 +16,8 @@ import {
   Checkbox,
   Row,
   Col,
-  Radio
+  Radio,
+  Progress
 } from "antd";
 
 import { postProject, editPost } from "../store/actions/posts";
@@ -25,7 +28,9 @@ const { TextArea } = Input;
 class PostForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: []
+    autoCompleteResult: [],
+    fileList: [],
+    uploading: false
   };
 
   handleSubmit = e => {
@@ -101,12 +106,57 @@ class PostForm extends React.Component {
     this.setState({ autoCompleteResult });
   };
 
-  normFile = e => {
-    console.log("Upload event:", e);
-    if (Array.isArray(e)) {
-      return e;
+  handleUpload = () => {
+    const { fileList } = this.state;
+    const formData = new FormData();
+    fileList.forEach(file => {
+      formData.append("files[]", file);
+    });
+
+    this.setState({
+      uploading: true
+    });
+
+    //Get files
+    for (var i = 0; i < fileList.length; i++) {
+      var imageFile = fileList[i];
+      this.uploadImageAsPromise(imageFile);
     }
-    return e && e.fileList;
+
+    this.setState({
+      fileList: [],
+      uploading: false
+    });
+  };
+
+  //Handle waiting to upload each file using promise
+  uploadImageAsPromise = file => {
+    return new Promise((resolve, reject) => {
+      var uploadTask = storage.ref(`files/${file.name}`).put(file);
+
+      uploadTask.on(
+        "state_changed",
+        snapshot => {
+          const progress = Math.round(
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          );
+          console.log(progress);
+        },
+        error => {
+          console.error(error);
+        },
+        () => {
+          storage
+            .ref("files")
+            .child(file.name)
+            .getDownloadURL()
+            .then(url => {
+              console.log(url);
+            });
+          message.success("upload successfully.");
+        }
+      );
+    });
   };
 
   render() {
@@ -139,6 +189,27 @@ class PostForm extends React.Component {
     const websiteOptions = autoCompleteResult.map(website => (
       <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
     ));
+
+    const { uploading, fileList } = this.state;
+    const props = {
+      onRemove: file => {
+        this.setState(state => {
+          const index = state.fileList.indexOf(file);
+          const newFileList = state.fileList.slice();
+          newFileList.splice(index, 1);
+          return {
+            fileList: newFileList
+          };
+        });
+      },
+      beforeUpload: file => {
+        this.setState(state => ({
+          fileList: [...state.fileList, file]
+        }));
+        return false;
+      },
+      fileList
+    };
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -275,25 +346,18 @@ class PostForm extends React.Component {
           )}
         </Form.Item>
 
-        <Form.Item {...formItemLayout} label="Files">
-          <div className="dropbox">
-            {getFieldDecorator("dragger", {
-              valuePropName: "fileList",
-              getValueFromEvent: this.normFile
-            })(
-              <Upload
-                name="logo"
-                accept=".pdf,.jpg,.png,.doc,.docx"
-                listType="picture"
-                beforeUpload={(file, fileList) => false}
-              >
-                <Button>
-                  <Icon type="upload" /> Select File
-                </Button>
-              </Upload>
-            )}
-          </div>
+        <Form.Item
+          {...formItemLayout}
+          label="File(s)"
+          extra="longgggggggggggggggggggggggggggggggggg"
+        >
+          <Upload {...props}>
+            <Button>
+              <Icon type="upload" /> Select File
+            </Button>
+          </Upload>
         </Form.Item>
+
         <Divider orientation="left">Contact Information</Divider>
         <Form.Item {...formItemLayout} label="Name">
           {getFieldDecorator("name", {
@@ -351,17 +415,13 @@ class PostForm extends React.Component {
             </AutoComplete>
           )}
         </Form.Item>
+
         <Form.Item {...tailFormItemLayout}>
-          {getFieldDecorator("agreement", {
-            valuePropName: "checked"
-          })(
-            <Checkbox>
-              I have read the <a href="">agreement</a>
-            </Checkbox>
-          )}
-        </Form.Item>
-        <Form.Item {...tailFormItemLayout}>
-          <Button type="primary" htmlType="submit">
+          <Button
+            type="primary"
+            htmlType="submit"
+            onClick={this.state.fileList.length > 0 ? this.handleUpload : null}
+          >
             {this.props.currentPost ? "Update" : "Post"}
           </Button>
         </Form.Item>
