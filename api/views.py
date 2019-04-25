@@ -32,8 +32,10 @@ class PostViewSet(viewsets.ModelViewSet):
         post.requirements = data['requirements']
         post.semester = str(data['semester'])
         post.internship = data['internship']
+        post.name = data['name']
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
+        post.website = data['website']
 
         post.save()
         return Response(status=HTTP_201_CREATED)

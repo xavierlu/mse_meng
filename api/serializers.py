@@ -22,8 +22,10 @@ class PostSerializer(serializers.ModelSerializer):
         post.requirements = data['requirements']
         post.semester = str(data['semester'])
         post.internship = data['internship']
+        post.name = data['name']
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
+        post.website = data['website']
 
         post.save()
 

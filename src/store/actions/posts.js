@@ -21,7 +21,7 @@ export const getPostListFail = error => {
   };
 };
 
-export const getPosts = (token, username) => {
+export const getPosts = (token, username, is_company) => {
   return dispatch => {
     dispatch(getPostListStart());
     axios.defaults.headers = {
@@ -41,10 +41,7 @@ export const getPosts = (token, username) => {
       .then(res => {
         var posts = [];
         posts = res.data;
-        console.log(posts);
-        console.log(username);
-        posts = posts.filter(item => item.company === username);
-        console.log(posts);
+        if (is_company) posts = posts.filter(item => item.company === username);
         dispatch(getPostListSuccess(posts));
       })
       .catch(err => {

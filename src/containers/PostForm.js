@@ -45,6 +45,7 @@ class PostForm extends React.Component {
           name: values.name,
           email: values.email,
           phoneNumber: values.phoneNumber,
+          website: values.website,
           file: values.dragger
         };
         if (this.props.currentPost) {
@@ -93,7 +94,7 @@ class PostForm extends React.Component {
     if (!value) {
       autoCompleteResult = [];
     } else {
-      autoCompleteResult = [".com", ".org", ".net"].map(
+      autoCompleteResult = [".com", ".org", ".net", ".edu"].map(
         domain => `${value}${domain}`
       );
     }

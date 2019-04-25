@@ -88,12 +88,20 @@ class PostDetail extends React.Component {
 
             <Divider orientation="left">Contact Information</Divider>
 
+            <Form.Item {...formItemLayout} label="Name">
+              <Text>{this.props.currentPost.name}</Text>
+            </Form.Item>
+
             <Form.Item {...formItemLayout} label="email">
               <Text>{this.props.currentPost.email}</Text>
             </Form.Item>
 
             <Form.Item {...formItemLayout} label="Phone number">
               <Text>{this.props.currentPost.phoneNumber}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Website">
+              <Text>{this.props.currentPost.website}</Text>
             </Form.Item>
           </Typography>
         ) : (
