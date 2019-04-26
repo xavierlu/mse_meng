@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Divider, Row, Col, message } from "antd";
+import { Form, Icon, Input, Button, Divider, Row, Col, Spin } from "antd";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 
@@ -65,43 +65,48 @@ class Login extends React.Component {
       <Row gutter={40} type="flex" align="middle">
         <Col span={12} type="flex" align="middle">
           <Divider orientation="left">Student NetID Login</Divider>
+          {this.props.loading ? (
+            <Spin
+              indicator={<Icon type="loading" style={{ fontSize: 24 }} spin />}
+            />
+          ) : (
+            <Form
+              labelCol={{ span: 6 }}
+              wrapperCol={{ span: 12 }}
+              onSubmit={this.handleStudentLogin}
+              className="login-form-student"
+            >
+              <FormItem label="NetID">
+                {getFieldDecorator("netid", {
+                  rules: [
+                    {
+                      required: true,
+                      message: "Please input your NetID!"
+                    }
+                  ]
+                })(
+                  <Input
+                    size="large"
+                    prefix={
+                      <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
+                    }
+                    placeholder="NetID"
+                  />
+                )}
+              </FormItem>
 
-          <Form
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 12 }}
-            onSubmit={this.handleStudentLogin}
-            className="login-form-student"
-          >
-            <FormItem label="NetID">
-              {getFieldDecorator("netid", {
-                rules: [
-                  {
-                    required: true,
-                    message: "Please input your NetID!"
-                  }
-                ]
-              })(
-                <Input
+              <FormItem wrapperCol={{ span: 12, offset: 5 }}>
+                <Button
+                  type="danger"
                   size="large"
-                  prefix={
-                    <Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />
-                  }
-                  placeholder="NetID"
-                />
-              )}
-            </FormItem>
-
-            <FormItem wrapperCol={{ span: 12, offset: 5 }}>
-              <Button
-                type="danger"
-                size="large"
-                htmlType="submit"
-                style={{ marginRight: "12px" }}
-              >
-                Login
-              </Button>
-            </FormItem>
-          </Form>
+                  htmlType="submit"
+                  style={{ marginRight: "12px" }}
+                >
+                  Login
+                </Button>
+              </FormItem>
+            </Form>
+          )}
         </Col>
       </Row>
     );

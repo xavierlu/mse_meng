@@ -5,7 +5,6 @@ import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 import CE_MSE_LOGO from "./assets/CE_MSE.png";
 import CORNELL_LOGO_RED from "./assets/cuseal_full_red240.png";
-import Hoc from "../hoc/hoc";
 
 const { Header, Content, Footer, Sider } = Layout;
 

@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Input, Icon, Button, message } from "antd";
+import { Form, Input, Icon, Button, message, notification } from "antd";
 import { connect } from "react-redux";
 import { NavLink } from "react-router-dom";
 import * as actions from "../store/actions/auth";
@@ -65,7 +65,10 @@ class RegistrationForm extends React.Component {
       }
     } else if (prevProps.loading != this.props.loading && this.props.token) {
       message.loading("Registering", 2, () =>
-        message.success("Successfully registered", 2)
+        notification["success"]({
+          message: "Successfully registered",
+          description: "Nice :)"
+        })
       );
     }
   }

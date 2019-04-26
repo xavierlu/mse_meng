@@ -1,6 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import { storage } from "../firebase";
 import {
   Form,
@@ -10,6 +9,7 @@ import {
   Upload,
   Button,
   AutoComplete,
+  notification,
   message,
   Tooltip,
   InputNumber,
@@ -17,7 +17,7 @@ import {
   Row,
   Col,
   Radio,
-  Progress
+  Spin
 } from "antd";
 
 import { postProject, editPost } from "../store/actions/posts";
@@ -60,12 +60,18 @@ class PostForm extends React.Component {
             project
           );
           message.loading("Updating", 2, () =>
-            message.success("Successfully updated", 2)
+            notification["success"]({
+              message: "Posted successfully",
+              description: "Nice :)"
+            })
           );
         } else {
           this.props.postProject(this.props.token, project);
           message.loading("Uploading", 2, () =>
-            message.success("Successfully posted", 2)
+            notification["success"]({
+              message: "Posted successfully",
+              description: "Nice :)"
+            })
           );
         }
       }
@@ -113,24 +119,19 @@ class PostForm extends React.Component {
       formData.append("files[]", file);
     });
 
-    this.setState({
-      uploading: true
-    });
-
     //Get files
     for (var i = 0; i < fileList.length; i++) {
       var imageFile = fileList[i];
       this.uploadImageAsPromise(imageFile);
     }
-
-    this.setState({
-      fileList: [],
-      uploading: false
-    });
   };
 
   //Handle waiting to upload each file using promise
   uploadImageAsPromise = file => {
+    this.setState({
+      uploading: true
+    });
+
     return new Promise((resolve, reject) => {
       var uploadTask = storage.ref(`files/${file.name}`).put(file);
 
@@ -144,6 +145,9 @@ class PostForm extends React.Component {
         },
         error => {
           console.error(error);
+          this.setState({
+            uploading: false
+          });
         },
         () => {
           storage
@@ -153,7 +157,13 @@ class PostForm extends React.Component {
             .then(url => {
               console.log(url);
             });
-          message.success("upload successfully.");
+          notification["success"]({
+            message: "File uploaded successfully",
+            description: "Nice :)"
+          });
+          this.setState({
+            uploading: false
+          });
         }
       );
     });
@@ -417,13 +427,20 @@ class PostForm extends React.Component {
         </Form.Item>
 
         <Form.Item {...tailFormItemLayout}>
-          <Button
-            type="primary"
-            htmlType="submit"
-            onClick={this.state.fileList.length > 0 ? this.handleUpload : null}
-          >
-            {this.props.currentPost ? "Update" : "Post"}
-          </Button>
+          {this.state.uploading ? (
+            <Spin />
+          ) : (
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={uploading}
+              onClick={
+                this.state.fileList.length > 0 ? this.handleUpload : null
+              }
+            >
+              {this.props.currentPost ? "Update" : "Post"}
+            </Button>
+          )}
         </Form.Item>
       </Form>
     );
