@@ -22,18 +22,18 @@ import {
 
 import { postProject, editPost } from "../store/actions/posts";
 
-const AutoCompleteOption = AutoComplete.Option;
 const { TextArea } = Input;
 
 class PostForm extends React.Component {
   state = {
     confirmDirty: false,
-    autoCompleteResult: [],
     fileList: [],
+    filenameList: [],
     uploading: false
   };
 
   handleSubmit = e => {
+    if (this.state.fileList.length > 0) this.handleUpload();
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -51,8 +51,10 @@ class PostForm extends React.Component {
           email: values.email,
           phoneNumber: values.phoneNumber,
           website: values.website,
-          file: values.dragger
+          files: this.state.filenameList.substring(1)
         };
+        console.log(this.state.filenameList);
+        console.log(project);
         if (this.props.currentPost) {
           this.props.editPost(
             this.props.token,
@@ -100,18 +102,6 @@ class PostForm extends React.Component {
     callback();
   };
 
-  handleWebsiteChange = value => {
-    let autoCompleteResult;
-    if (!value) {
-      autoCompleteResult = [];
-    } else {
-      autoCompleteResult = [".com", ".org", ".net", ".edu"].map(
-        domain => `${value}${domain}`
-      );
-    }
-    this.setState({ autoCompleteResult });
-  };
-
   handleUpload = () => {
     const { fileList } = this.state;
     const formData = new FormData();
@@ -119,29 +109,31 @@ class PostForm extends React.Component {
       formData.append("files[]", file);
     });
 
-    //Get files
     for (var i = 0; i < fileList.length; i++) {
       var imageFile = fileList[i];
-      this.uploadImageAsPromise(imageFile);
+      this.uploadImageAsPromise(imageFile, i);
     }
   };
 
   //Handle waiting to upload each file using promise
-  uploadImageAsPromise = file => {
+  uploadImageAsPromise = (file, index) => {
     this.setState({
       uploading: true
     });
 
     return new Promise((resolve, reject) => {
-      var uploadTask = storage.ref(`files/${file.name}`).put(file);
+      var filename = file.name;
+      var fileExt = filename.split(".").pop();
+      var editedFilename = `${this.props.username}/${filename}`;
+      var uploadTask = storage.ref(editedFilename).put(file);
 
       uploadTask.on(
         "state_changed",
         snapshot => {
-          const progress = Math.round(
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-          );
-          console.log(progress);
+          // const progress = Math.round(
+          //   (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          // );
+          // console.log(progress);
         },
         error => {
           console.error(error);
@@ -150,16 +142,9 @@ class PostForm extends React.Component {
           });
         },
         () => {
-          storage
-            .ref("files")
-            .child(file.name)
-            .getDownloadURL()
-            .then(url => {
-              console.log(url);
-            });
           notification["success"]({
             message: "File uploaded successfully",
-            description: "Nice :)"
+            description: "Filename: " + file.name
           });
           this.setState({
             uploading: false
@@ -171,7 +156,6 @@ class PostForm extends React.Component {
 
   render() {
     const { getFieldDecorator } = this.props.form;
-    const { autoCompleteResult } = this.state;
 
     const formItemLayout = {
       labelCol: {
@@ -196,13 +180,10 @@ class PostForm extends React.Component {
       }
     };
 
-    const websiteOptions = autoCompleteResult.map(website => (
-      <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-    ));
-
     const { uploading, fileList } = this.state;
     const props = {
       onRemove: file => {
+        console.log(file);
         this.setState(state => {
           const index = state.fileList.indexOf(file);
           const newFileList = state.fileList.slice();
@@ -214,7 +195,8 @@ class PostForm extends React.Component {
       },
       beforeUpload: file => {
         this.setState(state => ({
-          fileList: [...state.fileList, file]
+          fileList: [...state.fileList, file],
+          filenameList: state.filenameList + "," + file.name
         }));
         return false;
       },
@@ -359,10 +341,10 @@ class PostForm extends React.Component {
         <Form.Item
           {...formItemLayout}
           label="File(s)"
-          extra="longgggggggggggggggggggggggggggggggggg"
+          extra="File(s) cannot be removed after uploading"
         >
           <Upload {...props}>
-            <Button>
+            <Button disabled={this.state.fileList.length >= 5}>
               <Icon type="upload" /> Select File
             </Button>
           </Upload>
@@ -416,11 +398,7 @@ class PostForm extends React.Component {
               ? this.props.currentPost.website
               : null
           })(
-            <AutoComplete
-              dataSource={websiteOptions}
-              onChange={this.handleWebsiteChange}
-              placeholder="website"
-            >
+            <AutoComplete placeholder="website">
               <Input />
             </AutoComplete>
           )}
@@ -430,14 +408,7 @@ class PostForm extends React.Component {
           {this.state.uploading ? (
             <Spin />
           ) : (
-            <Button
-              type="primary"
-              htmlType="submit"
-              loading={uploading}
-              onClick={
-                this.state.fileList.length > 0 ? this.handleUpload : null
-              }
-            >
+            <Button type="primary" htmlType="submit" loading={uploading}>
               {this.props.currentPost ? "Update" : "Post"}
             </Button>
           )}

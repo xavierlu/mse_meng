@@ -38,7 +38,7 @@ class CustomLayout extends React.Component {
         </Header>
         <Content style={{ padding: "0 50px", backgroundColor: "#F7F7F7" }}>
           <Layout style={{ padding: "24px 0", background: "#fff" }}>
-            <Sider width={200} style={{ background: "#fff" }}>
+            <Sider width={230} style={{ background: "#fff" }}>
               <Menu
                 mode="inline"
                 defaultOpenKeys={["sub1"]}
@@ -80,17 +80,20 @@ class CustomLayout extends React.Component {
                   </Menu.Item>
                 ) : (
                   <Menu.Item key="/login">
-                    <Icon type="login" />
+                    <Icon type="book" />
                     <span> Student Login </span>
                     <Link to="/login" />
                   </Menu.Item>
                 )}
 
                 {this.props.isAuthenticated ? (
-                  <Menu.Item />
+                  <Menu.Item>
+                    <Icon type="user" />
+                    <span>{this.props.username}</span>
+                  </Menu.Item>
                 ) : (
                   <Menu.Item key="/login-company">
-                    <Icon type="login" />
+                    <Icon type="bank" />
                     <span> Company Login </span>
                     <Link to="/login-company" />
                   </Menu.Item>
@@ -115,6 +118,7 @@ class CustomLayout extends React.Component {
 const mapStateToProps = state => {
   return {
     userId: state.auth.userId,
+    username: state.auth.username,
     token: state.auth.token,
     is_company: state.auth.is_company
   };

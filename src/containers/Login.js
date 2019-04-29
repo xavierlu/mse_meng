@@ -19,16 +19,6 @@ class Login extends React.Component {
     this.setState({ isStudentLogin: flag, netid: id });
   };
 
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields(["email", "password"], (err, values) => {
-      if (!err) {
-        this.props.onAuth(values.email, values.password);
-        this.setStudent(false, null);
-      }
-    });
-  };
-
   handleStudentLogin = e2 => {
     e2.preventDefault();
     this.props.form.validateFields(["netid"], (err, values) => {
@@ -51,6 +41,8 @@ class Login extends React.Component {
           this.state.netid,
           true
         );
+
+        this.setStudent(false, null);
       }
     }
   }
@@ -128,7 +120,15 @@ const mapDispatchToProps = dispatch => {
     onAuth: (email, password) => dispatch(actions.authLogin(email, password)),
     onRegister: (username, email, password1, password2, is_student) =>
       dispatch(
-        actions.authSignup(username, email, password1, password2, is_student)
+        actions.authSignup(
+          username,
+          email,
+          username,
+          username,
+          password1,
+          password2,
+          is_student
+        )
       )
   };
 };

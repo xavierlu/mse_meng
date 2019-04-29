@@ -63,7 +63,7 @@ class RegistrationForm extends React.Component {
       for (var prop in this.props.error.response.data) {
         message.error(this.props.error.response.data[prop]);
       }
-    } else if (prevProps.loading != this.props.loading && this.props.token) {
+    } else if (prevProps.loading !== this.props.loading && this.props.token) {
       message.loading("Registering", 2, () =>
         notification["success"]({
           message: "Successfully registered",

@@ -26,6 +26,7 @@ class PostSerializer(serializers.ModelSerializer):
         post.email = data['email']
         post.phoneNumber = data['phoneNumber']
         post.website = data['website']
+        post.files = data['files']
 
         post.save()
 

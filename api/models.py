@@ -16,7 +16,7 @@ class Post(models.Model):
     phoneNumber = models.CharField(max_length=11, default='')
     website = models.CharField(max_length=30, default='')
     company = models.CharField(max_length=50)
-    relevent_file = models.FileField(default=False)
+    files = models.CharField(max_length=255, default='', blank=True)
 
     def __str__(self):
         return self.title
