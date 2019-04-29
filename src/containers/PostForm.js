@@ -33,7 +33,6 @@ class PostForm extends React.Component {
   };
 
   handleSubmit = e => {
-    if (this.state.fileList.length > 0) this.handleUpload();
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
       if (!err) {
@@ -53,8 +52,9 @@ class PostForm extends React.Component {
           website: values.website,
           files: this.state.filenameList.substring(1)
         };
-        console.log(this.state.filenameList);
-        console.log(project);
+
+        if (this.state.fileList.length > 0) this.handleUpload(values.title);
+
         if (this.props.currentPost) {
           this.props.editPost(
             this.props.token,
@@ -102,7 +102,7 @@ class PostForm extends React.Component {
     callback();
   };
 
-  handleUpload = () => {
+  handleUpload = title => {
     const { fileList } = this.state;
     const formData = new FormData();
     fileList.forEach(file => {
@@ -111,20 +111,19 @@ class PostForm extends React.Component {
 
     for (var i = 0; i < fileList.length; i++) {
       var imageFile = fileList[i];
-      this.uploadImageAsPromise(imageFile, i);
+      this.uploadImageAsPromise(imageFile, i, title);
     }
   };
 
   //Handle waiting to upload each file using promise
-  uploadImageAsPromise = (file, index) => {
+  uploadImageAsPromise = (file, index, title) => {
     this.setState({
       uploading: true
     });
 
     return new Promise((resolve, reject) => {
       var filename = file.name;
-      var fileExt = filename.split(".").pop();
-      var editedFilename = `${this.props.username}/${filename}`;
+      var editedFilename = `${this.props.username}/${title}/${filename}`;
       var uploadTask = storage.ref(editedFilename).put(file);
 
       uploadTask.on(

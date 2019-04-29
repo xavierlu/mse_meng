@@ -30,7 +30,9 @@ class PostDetail extends React.Component {
       for (let filename of (this.props.currentPost.files + "").split(",")) {
         console.log(filename);
         storage
-          .ref(this.props.currentPost.company + "")
+          .ref(
+            this.props.currentPost.company + "/" + this.props.currentPost.title
+          )
           .child(filename)
           .getDownloadURL()
           .then(url => {
@@ -133,24 +135,6 @@ class PostDetail extends React.Component {
               <Text>{this.props.currentPost.internship}</Text>
             </Form.Item>
 
-            <Divider orientation="left">Contact Information</Divider>
-
-            <Form.Item {...formItemLayout} label="Name">
-              <Text>{this.props.currentPost.name}</Text>
-            </Form.Item>
-
-            <Form.Item {...formItemLayout} label="email">
-              <Text>{this.props.currentPost.email}</Text>
-            </Form.Item>
-
-            <Form.Item {...formItemLayout} label="Phone number">
-              <Text>{this.props.currentPost.phoneNumber}</Text>
-            </Form.Item>
-
-            <Form.Item {...formItemLayout} label="Website">
-              <Text>{this.props.currentPost.website}</Text>
-            </Form.Item>
-
             <Form.Item {...formItemLayout} label="Files">
               {this.state.fileList.length >= 1 ? (
                 <Hoc>
@@ -166,12 +150,11 @@ class PostDetail extends React.Component {
                   <a href={this.state.urlList[0]} target="_blank">
                     {this.state.fileList[0]}
                   </a>
+                  <br />
                 </Hoc>
               ) : (
-                <br />
+                <span> </span>
               )}
-
-              <br />
 
               {this.state.fileList.length >= 2 ? (
                 <Hoc>
@@ -187,12 +170,11 @@ class PostDetail extends React.Component {
                   <a href={this.state.urlList[1]} target="_blank">
                     {this.state.fileList[1]}
                   </a>
+                  <br />
                 </Hoc>
               ) : (
-                <br />
+                <span> </span>
               )}
-
-              <br />
 
               {this.state.fileList.length >= 3 ? (
                 <Hoc>
@@ -208,12 +190,11 @@ class PostDetail extends React.Component {
                   <a href={this.state.urlList[2]} target="_blank">
                     {this.state.fileList[2]}
                   </a>
+                  <br />
                 </Hoc>
               ) : (
-                <br />
+                <span> </span>
               )}
-
-              <br />
 
               {this.state.fileList.length >= 4 ? (
                 <Hoc>
@@ -229,12 +210,11 @@ class PostDetail extends React.Component {
                   <a href={this.state.urlList[3]} target="_blank">
                     {this.state.fileList[3]}
                   </a>
+                  <br />
                 </Hoc>
               ) : (
-                <br />
+                <span> </span>
               )}
-
-              <br />
 
               {this.state.fileList.length == 5 ? (
                 <Hoc>
@@ -252,8 +232,26 @@ class PostDetail extends React.Component {
                   </a>
                 </Hoc>
               ) : (
-                <br />
+                <span> </span>
               )}
+            </Form.Item>
+
+            <Divider orientation="left">Contact Information</Divider>
+
+            <Form.Item {...formItemLayout} label="Name">
+              <Text>{this.props.currentPost.name}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="email">
+              <Text>{this.props.currentPost.email}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Phone number">
+              <Text>{this.props.currentPost.phoneNumber}</Text>
+            </Form.Item>
+
+            <Form.Item {...formItemLayout} label="Website">
+              <Text>{this.props.currentPost.website}</Text>
             </Form.Item>
           </Typography>
         ) : (
