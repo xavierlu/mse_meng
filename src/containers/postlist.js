@@ -72,7 +72,7 @@ class PostList extends React.PureComponent {
               Fall, Spring. <br />
               <Text strong>Course Attribute: </Text> (CU-UGR) <br />
               <Text strong>Contact:</Text>
-               Alex Deyhim (<Text copyable>akd9@cornell.edu</Text>)
+              Alex Deyhim (<Text copyable>akd9@cornell.edu</Text>)
             </Paragraph>
             <Divider />
 
