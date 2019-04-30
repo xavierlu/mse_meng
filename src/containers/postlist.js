@@ -65,8 +65,8 @@ class PostList extends React.PureComponent {
       <Hoc>
         {this.props.token === undefined || this.props.token === null ? (
           <Typography>
-            <Title level={2}>MSE 5010 Special Project</Title>
-            <Paragraph>Masters of Engineering Research Project.</Paragraph>
+            <Title level={2}>MSE 5010 Speical Project</Title>
+            <Paragraph>Master of Engineering research project.</Paragraph>
             <Paragraph>
               <Text strong>When Offered: </Text>
               Fall, Spring. <br />
@@ -83,7 +83,7 @@ class PostList extends React.PureComponent {
             <Paragraph>
               Please click on "Company Login" on the left. If this is your first
               time using this site, please register an account by clicking the
-              SignUp button after clicking "Company Login" on the left.
+              SignUp button after clicking "Company Login" on the left
             </Paragraph>
 
             <Divider />
