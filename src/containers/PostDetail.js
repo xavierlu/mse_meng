@@ -251,7 +251,9 @@ class PostDetail extends React.Component {
             </Form.Item>
 
             <Form.Item {...formItemLayout} label="Website">
-              <Text>{this.props.currentPost.website}</Text>
+              <a href={this.props.currentPost.website}>
+                {this.props.currentPost.website}
+              </a>
             </Form.Item>
           </Typography>
         ) : (

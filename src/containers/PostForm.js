@@ -32,6 +32,15 @@ class PostForm extends React.Component {
     uploading: false
   };
 
+  componentDidUpdate(prevProps) {
+    if (
+      this.props.currentPost !== prevProps.currentPost &&
+      this.props.currentPost !== null
+    ) {
+      this.setState({ filenameList: this.props.currentPost.files });
+    }
+  }
+
   handleSubmit = e => {
     e.preventDefault();
     this.props.form.validateFieldsAndScroll((err, values) => {
@@ -50,7 +59,10 @@ class PostForm extends React.Component {
           email: values.email,
           phoneNumber: values.phoneNumber,
           website: values.website,
-          files: this.state.filenameList.substring(1)
+          files:
+            this.state.filenameList.charAt(0) == ","
+              ? this.state.filenameList.substring(1)
+              : this.state.filenameList
         };
 
         if (this.state.fileList.length > 0) this.handleUpload(values.title);
@@ -123,6 +135,7 @@ class PostForm extends React.Component {
 
     return new Promise((resolve, reject) => {
       var filename = file.name;
+      filename = filename.replace(",", "");
       var editedFilename = `${this.props.username}/${title}/${filename}`;
       var uploadTask = storage.ref(editedFilename).put(file);
 
@@ -195,7 +208,7 @@ class PostForm extends React.Component {
       beforeUpload: file => {
         this.setState(state => ({
           fileList: [...state.fileList, file],
-          filenameList: state.filenameList + "," + file.name
+          filenameList: state.filenameList + "," + file.name.replace(",", "")
         }));
         return false;
       },
@@ -340,7 +353,59 @@ class PostForm extends React.Component {
         <Form.Item
           {...formItemLayout}
           label="File(s)"
-          extra="File(s) cannot be removed after uploading"
+          extra={
+            <div>
+              <text>File(s) cannot be removed after uploading</text>
+              <br />
+
+              {this.props.currentPost ? (
+                <div>
+                  {(this.props.currentPost.files + "").split(",")[0] ? (
+                    <div>
+                      <Icon type="paper-clip" />{" "}
+                      {(this.props.currentPost.files + "").split(",")[0]} <br />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {(this.props.currentPost.files + "").split(",")[1] ? (
+                    <div>
+                      <Icon type="paper-clip" />{" "}
+                      {(this.props.currentPost.files + "").split(",")[1]} <br />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {(this.props.currentPost.files + "").split(",")[2] ? (
+                    <div>
+                      <Icon type="paper-clip" />{" "}
+                      {(this.props.currentPost.files + "").split(",")[2]} <br />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {(this.props.currentPost.files + "").split(",")[3] ? (
+                    <div>
+                      <Icon type="paper-clip" />{" "}
+                      {(this.props.currentPost.files + "").split(",")[3]} <br />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                  {(this.props.currentPost.files + "").split(",")[4] ? (
+                    <div>
+                      <Icon type="paper-clip" />{" "}
+                      {(this.props.currentPost.files + "").split(",")[4]} <br />
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                </div>
+              ) : (
+                ""
+              )}
+            </div>
+          }
         >
           <Upload {...props}>
             <Button disabled={this.state.fileList.length >= 5}>
