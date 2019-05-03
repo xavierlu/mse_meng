@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Form, Divider, Typography, Icon } from "antd";
+import { Form, Divider, Typography, Icon, Collapse } from "antd";
 import { getPostDetail } from "../store/actions/posts";
 import { withRouter } from "react-router-dom";
 
@@ -83,6 +83,16 @@ class PostDetail extends React.Component {
         sm: { span: 12 }
       }
     };
+
+    const Panel = Collapse.Panel;
+
+    const text = (
+      <p style={{ paddingLeft: 24 }}>
+        A dog is a type of domesticated animal. Known for its loyalty and
+        faithfulness, it can be found as a welcome guest in many households
+        across the world.
+      </p>
+    );
 
     return (
       <Hoc>
@@ -254,6 +264,14 @@ class PostDetail extends React.Component {
               <a href={this.props.currentPost.website}>
                 {this.props.currentPost.website}
               </a>
+            </Form.Item>
+            <Divider orientation="left">FAQ</Divider>
+            <Form.Item {...formItemLayout} label="Questions">
+              <Collapse bordered={false}>
+                <Panel header="xll2 asked: What is a dog?">{text}</Panel>
+                <Panel header="This is panel header 2">{text}</Panel>
+                <Panel header="This is panel header 3">{text}</Panel>
+              </Collapse>
             </Form.Item>
           </Typography>
         ) : (

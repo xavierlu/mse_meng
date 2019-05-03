@@ -1,5 +1,5 @@
 import React from "react";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu, Icon, Popconfirm } from "antd";
 import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
@@ -73,10 +73,18 @@ class CustomLayout extends React.Component {
                   </Menu.Item>
                 ) : null}
                 {this.props.isAuthenticated ? (
-                  <Menu.Item key="/login" onClick={this.props.logout}>
-                    <Icon type="logout" />
-                    <span> Logout </span>
-                    <Link to="/" />
+                  <Menu.Item key="/login">
+                    <Popconfirm
+                      placement="right"
+                      title={"Are you sure you want to sign out?"}
+                      onConfirm={this.props.logout}
+                      okText="Yes"
+                      cancelText="No"
+                    >
+                      <Icon type="logout" />
+                      <span> Logout </span>
+                      <Link to="/" />
+                    </Popconfirm>
                   </Menu.Item>
                 ) : (
                   <Menu.Item key="/login">

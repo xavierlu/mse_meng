@@ -1,7 +1,15 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { Button, Skeleton, Table, Tooltip, Typography, Divider } from "antd";
+import {
+  Button,
+  Skeleton,
+  Table,
+  Tooltip,
+  Typography,
+  Divider,
+  Badge
+} from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
@@ -32,9 +40,11 @@ class PostList extends React.PureComponent {
             <Button type="danger" icon="frown" />
           </Tooltip>
         ) : (
-          <Link to={`/posts/${post.id}`}>
-            <Button icon={this.props.is_company ? "edit" : "right"} />
-          </Link>
+          <Badge count={1}>
+            <Link to={`/posts/${post.id}`}>
+              <Button icon={this.props.is_company ? "edit" : "right"} />
+            </Link>
+          </Badge>
         )}
       </Hoc>
     );
