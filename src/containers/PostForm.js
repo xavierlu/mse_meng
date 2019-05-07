@@ -60,7 +60,7 @@ class PostForm extends React.Component {
           phoneNumber: values.phoneNumber,
           website: values.website,
           files:
-            this.state.filenameList.charAt(0) == ","
+            this.state.filenameList.charAt(0) === ","
               ? this.state.filenameList.substring(1)
               : this.state.filenameList
         };

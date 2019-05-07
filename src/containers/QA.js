@@ -1,108 +1,159 @@
 import React from "react";
 import { connect } from "react-redux";
-import { List, Form, Avatar, Input, Card, Button } from "antd";
-import * as actions from "../store/actions/posts";
+import { withRouter } from "react-router-dom";
+import {
+  Form,
+  Divider,
+  Collapse,
+  Input,
+  Button,
+  Skeleton,
+  notification
+} from "antd";
+import firebase from "../firebase";
+import { getPostDetail } from "../store/actions/posts";
 
 import Hoc from "../hoc/hoc";
 
-const data = [
-  {
-    title: "Where is it located 1"
-  },
-  {
-    title: "Where is it located 2"
-  },
-  {
-    title: "How much is the stipend"
-  },
-  {
-    title: "Where is it located 4"
-  }
-];
-
 class QA extends React.PureComponent {
-  handleSubmit = e => {
-    e.preventDefault();
-    this.props.form.validateFields((err, values) => {
-      if (!err) {
-        console.log("Received values of form: ", values);
+  state = {
+    answers: [],
+    my_questions: null,
+    submitting: false
+  };
+
+  componentDidMount() {
+    if (this.props.token !== undefined && this.props.token !== null) {
+      this.props.getPostDetail(this.props.token, this.props.match.params.id);
+    }
+    firebase
+      .database()
+      .ref(`${this.props.currentPost.company}/${this.props.currentPost.title}`)
+      .once("value", snapshot => {
+        this.setState({ my_questions: snapshot.val() });
+      });
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (newProps.token !== this.props.token) {
+      if (newProps.token !== undefined && newProps.token !== null) {
+        this.props.getPostDetail(newProps.token, this.props.match.params.id);
       }
-    });
+    }
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.currentPost !== prevProps.currentPost) {
+      firebase
+        .database()
+        .ref(
+          `${this.props.currentPost.company}/${this.props.currentPost.title}`
+        )
+        .once("value", snapshot => {
+          this.setState({ my_questions: snapshot.val() });
+        });
+    }
+  }
+
+  uploadAnswer = (q, a) => {
+    console.log(JSON.parse(`{"${q}" : "${a}"}`));
   };
 
   render() {
-    const { TextArea } = Input;
-    const { getFieldDecorator } = this.props.form;
+    const Panel = Collapse.Panel;
+
+    const AnswerArea = ({ keey: q, placeholdAns }) => (
+      <div>
+        <Form.Item>
+          <Input.TextArea
+            rows={4}
+            defaultValue={placeholdAns}
+            onChange={e => {
+              this.state.answers[q] = e.target.value;
+              this.setState({
+                answers: this.state.answers
+              });
+            }}
+          />
+        </Form.Item>
+        <Form.Item>
+          <Button
+            type="primary"
+            onClick={() => {
+              firebase
+                .database()
+                .ref(
+                  `${this.props.currentPost.company}/${
+                    this.props.currentPost.title
+                  }`
+                )
+                .update(JSON.parse(`{"${q}" : "${this.state.answers[q]}"}`))
+                .then(() =>
+                  notification["success"]({
+                    message: "Question successfully answered",
+                    description: `Your response for "${q}" was successfully updated`
+                  })
+                )
+                .catch(err =>
+                  notification["error"]({
+                    message: "An error occured",
+                    description: err
+                  })
+                );
+            }}
+          >
+            Answer
+          </Button>
+        </Form.Item>
+      </div>
+    );
+
+    const Test = ({ my_questions }) => {
+      return (
+        <Collapse bordered={false}>
+          {Object.keys(my_questions).map(key => (
+            <Panel header={key}>
+              <AnswerArea keey={key} placeholdAns={my_questions[key]} />
+            </Panel>
+          ))}
+        </Collapse>
+      );
+    };
 
     return (
-      <Hoc>
-        <List
-          itemLayout="horizontal"
-          dataSource={data}
-          renderItem={item => (
-            <List.Item>
-              <List.Item.Meta
-                avatar={
-                  <Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />
-                }
-                title={item.title}
-                description="A more detailed description of my question asked above "
-              />
-            </List.Item>
-          )}
-        />
+      <div>
+        {this.props.loading || this.state.my_questions === null ? (
+          <Skeleton active />
+        ) : (
+          <Hoc>
+            <Divider orientation="left">Questions From Students</Divider>
 
-        <Card title="Ask a Question">
-          <div style={{ margin: "24px 0" }} />
-
-          <Form
-            labelCol={{ span: 5 }}
-            wrapperCol={{ span: 12 }}
-            onSubmit={this.handleSubmit}
-          >
-            <Form.Item label="Note">
-              {getFieldDecorator("note", {
-                rules: [{ required: true, message: "Please input your note!" }]
-              })(
-                <TextArea
-                  placeholder="Autosize height based on content lines"
-                  autosize
-                />
-              )}
-            </Form.Item>
-            <Form.Item label="Note">
-              {getFieldDecorator("note", {
-                rules: [{ required: true, message: "Please input your note!" }]
-              })(
-                <TextArea
-                  placeholder="Autosize height with minimum and maximum number of lines"
-                  autosize={{ minRows: 2, maxRows: 6 }}
-                />
-              )}
-            </Form.Item>
-            <Form.Item wrapperCol={{ span: 12, offset: 0 }}>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Card>
-      </Hoc>
+            <Test my_questions={this.state.my_questions} />
+          </Hoc>
+        )}
+      </div>
     );
   }
 }
 
-const WrappedQA = Form.create({ name: "q&a" })(QA);
-
 const mapStateToProps = state => {
-  return {};
+  return {
+    token: state.auth.token,
+    currentPost: state.posts.currentPost,
+    loading: state.posts.loading,
+    is_student: state.auth.is_student
+  };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    getPostDetail: (token, id) => dispatch(getPostDetail(token, id))
+  };
 };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(WrappedQA);
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(QA)
+);

@@ -5,7 +5,7 @@ import Hoc from "./hoc/hoc";
 import Login from "./containers/Login";
 import LoginCompany from "./containers/LoginCompany";
 import Signup from "./containers/Signup";
-import Profile from "./containers/Profile";
+import QA from "./containers/QA";
 import PostList from "./containers/PostList";
 import PostDetail from "./containers/PostDetail";
 import PostForm from "./containers/PostForm";
@@ -18,7 +18,7 @@ const BaseRouter = () => (
     <Route exact path="/login/" component={Login} />
     <Route exact path="/login-company/" component={LoginCompany} />
     <Route exact path="/signup/" component={Signup} />
-    <Route exact path="/profile/" component={Profile} />
+    <Route exact path="/qa/:id" component={QA} />
   </Hoc>
 );
 

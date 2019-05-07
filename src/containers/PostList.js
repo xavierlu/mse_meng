@@ -1,15 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import {
-  Button,
-  Skeleton,
-  Table,
-  Tooltip,
-  Typography,
-  Divider,
-  Badge
-} from "antd";
+import { Button, Skeleton, Table, Typography, Divider, Badge } from "antd";
 import * as actions from "../store/actions/posts";
 import Hoc from "../hoc/hoc"; // higher order components
 
@@ -35,16 +27,24 @@ class PostList extends React.PureComponent {
   renderEditButton(post) {
     return (
       <Hoc>
-        {post.company !== this.props.username && this.props.is_company ? (
-          <Tooltip title={"You can only edit your own post :("}>
-            <Button type="danger" icon="frown" />
-          </Tooltip>
-        ) : (
-          <Badge count={1}>
+        {this.props.is_company ? (
+          <Hoc>
             <Link to={`/posts/${post.id}`}>
-              <Button icon={this.props.is_company ? "edit" : "right"} />
+              <Button style={{ marginBottom: "5px" }} icon="edit">
+                Edit
+              </Button>
             </Link>
-          </Badge>
+            <br />
+            <Link to={`/qa/${post.id}`}>
+              <Button style={{ marginTop: "5px" }} icon="question">
+                Answer Questions
+              </Button>
+            </Link>
+          </Hoc>
+        ) : (
+          <Link to={`/posts/${post.id}`}>
+            <Button icon="right" />
+          </Link>
         )}
       </Hoc>
     );

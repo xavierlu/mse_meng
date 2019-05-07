@@ -1,12 +1,22 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Form, Divider, Typography, Icon, Collapse } from "antd";
+import {
+  Form,
+  Divider,
+  Typography,
+  Icon,
+  Collapse,
+  Button,
+  Input,
+  notification
+} from "antd";
 import { getPostDetail } from "../store/actions/posts";
 import { withRouter } from "react-router-dom";
 
 import Hoc from "../hoc/hoc";
 import PostForm from "./PostForm";
 import { storage } from "../firebase";
+import firebase from "../firebase";
 
 class PostDetail extends React.Component {
   constructor(props) {
@@ -14,7 +24,9 @@ class PostDetail extends React.Component {
     this.state = {
       urlList: [],
       fileList: (this.props.currentPost.files + "").split(","),
-      didUpdate: 0
+      didUpdate: 0,
+      my_questions: {},
+      my_question: ""
     };
   }
 
@@ -40,6 +52,15 @@ class PostDetail extends React.Component {
           })
           .catch(err => {});
       }
+      firebase
+        .database()
+        .ref(
+          `${this.props.currentPost.company}/${this.props.currentPost.title}`
+        )
+        .once("value", snapshot => {
+          console.log(snapshot.val());
+          this.setState({ my_questions: snapshot.val() });
+        });
       this.setState({
         fileList: (this.props.currentPost.files + "").split(",")
       });
@@ -67,6 +88,14 @@ class PostDetail extends React.Component {
           })
           .catch(err => {});
       }
+      firebase
+        .database()
+        .ref(
+          `${this.props.currentPost.company}/${this.props.currentPost.title}`
+        )
+        .once("value", snapshot => {
+          this.setState({ my_questions: snapshot.val() });
+        });
     }
   }
 
@@ -85,14 +114,6 @@ class PostDetail extends React.Component {
     };
 
     const Panel = Collapse.Panel;
-
-    const text = (
-      <p style={{ paddingLeft: 24 }}>
-        A dog is a type of domesticated animal. Known for its loyalty and
-        faithfulness, it can be found as a welcome guest in many households
-        across the world.
-      </p>
-    );
 
     return (
       <Hoc>
@@ -226,7 +247,7 @@ class PostDetail extends React.Component {
                 <span> </span>
               )}
 
-              {this.state.fileList.length == 5 ? (
+              {this.state.fileList.length === 5 ? (
                 <Hoc>
                   <Icon
                     type={
@@ -266,12 +287,67 @@ class PostDetail extends React.Component {
               </a>
             </Form.Item>
             <Divider orientation="left">FAQ</Divider>
-            <Form.Item {...formItemLayout} label="Questions">
-              <Collapse bordered={false}>
-                <Panel header="xll2 asked: What is a dog?">{text}</Panel>
-                <Panel header="This is panel header 2">{text}</Panel>
-                <Panel header="This is panel header 3">{text}</Panel>
-              </Collapse>
+            {this.state.my_questions ? (
+              <Form.Item {...formItemLayout} label="Questions">
+                <Collapse bordered={false}>
+                  {Object.keys(this.state.my_questions).map(key => (
+                    <Panel header={key}>{this.state.my_questions[key]}</Panel>
+                  ))}
+                </Collapse>
+              </Form.Item>
+            ) : (
+              <br />
+            )}
+
+            <Divider orientation="left">Ask a Question</Divider>
+            <Form.Item>
+              <Input.TextArea
+                rows={2}
+                value={this.state.my_question}
+                onChange={e => {
+                  this.setState({
+                    my_question: e.target.value
+                  });
+                }}
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                type="primary"
+                onClick={() => {
+                  this.state.my_questions[this.state.my_question] = "";
+                  this.setState({
+                    my_questions: this.state.my_questions
+                  });
+                  firebase
+                    .database()
+                    .ref(
+                      `${this.props.currentPost.company}/${
+                        this.props.currentPost.title
+                      }`
+                    )
+                    .update(JSON.parse(`{"${this.state.my_question}" : ""}`))
+                    .then(() => {
+                      notification["success"]({
+                        message: "Question successfully posted",
+                        description: `Your question "${
+                          this.state.my_question
+                        }" was successfully posted`
+                      });
+                      this.setState({
+                        my_question: ""
+                      });
+                    })
+                    .catch(err =>
+                      notification["error"]({
+                        message: "An error occured",
+                        description: err
+                      })
+                    );
+                }}
+              >
+                Answer
+              </Button>
             </Form.Item>
           </Typography>
         ) : (
@@ -286,7 +362,6 @@ const mapStateToProps = state => {
   return {
     token: state.auth.token,
     currentPost: state.posts.currentPost,
-    loading: state.posts.loading,
     is_student: state.auth.is_student
   };
 };
