@@ -21,4 +21,4 @@ package-lock.json
 .idea/
 
 # OS Files
-.DS_Store
+.DS_Storesendgrid.env

@@ -121,5 +121,7 @@ REST_AUTH_REGISTER_SERIALIZERS = {
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000',
     'mse5010.herokuapp.com',
-    'mse5010.mse.cornell.edu'
+    'mse5010.mse.cornell.edu',
+    'https://sendgrid.api-docs.io/',
+    'https://api.sendgrid.com/v3/mail/send'
 )

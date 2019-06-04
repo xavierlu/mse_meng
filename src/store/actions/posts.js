@@ -1,6 +1,8 @@
 import axios from "axios";
 import * as actionTypes from "./actionTypes";
 
+const sgMail = require("@sendgrid/mail");
+
 export const getPostListStart = () => {
   return {
     type: actionTypes.GET_POST_LIST_START
@@ -94,6 +96,18 @@ export const getPostDetail = (token, id) => {
       .catch(err => {
         dispatch(getPostDetailFail(err));
       });
+
+    sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+    const msg = {
+      to: "xll2@cornell.edu",
+      from: "test@example.com",
+      subject: "Sending with Twilio SendGrid is Fun",
+      text: "and easy to do anywhere, even with Node.js",
+      html: "<strong>and easy to do anywhere, even with Node.js</strong>"
+    };
+
+    sgMail.send(msg);
   };
 };
 
