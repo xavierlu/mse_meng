@@ -1,5 +1,15 @@
 import React from "react";
-import { Form, Icon, Input, Button, Divider, Row, Col, Spin } from "antd";
+import {
+  Form,
+  Icon,
+  Input,
+  Button,
+  Divider,
+  Row,
+  Col,
+  Spin,
+  notification
+} from "antd";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/auth";
 
@@ -11,7 +21,8 @@ class Login extends React.Component {
 
     this.state = {
       isStudentLogin: false,
-      netid: null
+      netid: null,
+      allowed: ["xll2", "akd9", "map457"]
     };
   }
 
@@ -23,8 +34,17 @@ class Login extends React.Component {
     e2.preventDefault();
     this.props.form.validateFields(["netid"], (err, values) => {
       if (!err) {
-        this.props.onAuth(values.netid + "@cornell.edu", values.netid);
-        this.setStudent(true, values.netid);
+        if (this.state.allowed.includes(values.netid)) {
+          this.props.onAuth(values.netid + "@cornell.edu", values.netid);
+          this.setStudent(true, values.netid);
+        } else {
+          notification["error"]({
+            placement: "topLeft",
+            message: "Permission denied",
+            description:
+              "Unfortunately, your NetID does not allow you to login as a student."
+          });
+        }
       }
     });
   };
