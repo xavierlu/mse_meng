@@ -22,3 +22,5 @@ package-lock.json
 
 # OS Files
 .DS_Storesendgrid.env
+
+sendgrid.env
