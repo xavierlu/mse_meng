@@ -22,7 +22,31 @@ class Login extends React.Component {
     this.state = {
       isStudentLogin: false,
       netid: null,
-      allowed: ["xll2", "akd9", "map457"]
+      allowed: [
+        "xll2",
+        "akd9",
+        "map457",
+        "kza7",
+        "jc3444",
+        "ccf74",
+        "lh649",
+        "hh697",
+        "hj387",
+        "jkk92",
+        "rp593",
+        "eq34",
+        "pv254",
+        "yw2283",
+        "yw2286",
+        "zw623",
+        "yy889",
+        "acy48",
+        "rhy27",
+        "wy293",
+        "hz522",
+        "xz727",
+        "zx59"
+      ]
     };
   }
 
@@ -42,7 +66,7 @@ class Login extends React.Component {
             placement: "topLeft",
             message: "Permission denied",
             description:
-              "Unfortunately, your NetID does not allow you to login as a student."
+              "Unfortunately, your NetID does not allow you to login."
           });
         }
       }

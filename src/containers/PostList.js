@@ -31,13 +31,13 @@ class PostList extends React.PureComponent {
           <Hoc>
             <Link to={`/posts/${post.id}`}>
               <Button style={{ marginBottom: "5px" }} icon="edit">
-                Edit
+                {window.innerWidth <= 500 ? "" : "Edit"}
               </Button>
             </Link>
             <br />
             <Link to={`/qa/${post.id}`}>
               <Button style={{ marginTop: "5px" }} icon="question">
-                Answer Questions
+                {window.innerWidth <= 500 ? "" : "Answer Question"}
               </Button>
             </Link>
           </Hoc>
