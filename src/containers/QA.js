@@ -8,7 +8,9 @@ import {
   Input,
   Button,
   Skeleton,
-  notification
+  notification,
+  Badge,
+  Icon
 } from "antd";
 import firebase from "../firebase";
 import { getPostDetail } from "../store/actions/posts";
@@ -112,7 +114,15 @@ class QA extends React.PureComponent {
       return (
         <Collapse bordered={false}>
           {Object.keys(my_questions).map(key => (
-            <Panel header={key}>
+            <Panel
+              header={
+                my_questions[key] ? (
+                  key
+                ) : (
+                  <Badge status={"error"}>{key}&nbsp;&nbsp;</Badge>
+                )
+              }
+            >
               <AnswerArea keey={key} placeholdAns={my_questions[key]} />
             </Panel>
           ))}

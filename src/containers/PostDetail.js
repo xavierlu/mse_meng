@@ -100,6 +100,10 @@ class PostDetail extends React.Component {
   }
 
   render() {
+    if (!this.props.error && this.props.token === null) {
+      this.props.history.push("/");
+    }
+
     const { Text, Paragraph } = Typography;
 
     const formItemLayout = {
