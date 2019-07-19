@@ -45,7 +45,8 @@ class Login extends React.Component {
         "wy293",
         "hz522",
         "xz727",
-        "zx59"
+        "zx59",
+        "ss2974"
       ]
     };
   }
