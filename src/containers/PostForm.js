@@ -57,7 +57,7 @@ class PostForm extends React.Component {
           internship: values.internship,
           name: values.name,
           email: values.email,
-          phoneNumber: values.phoneNumber,
+          phoneNumber: 6092169918,
           website: values.website,
           files:
             this.state.filenameList.charAt(0) === ","
@@ -444,16 +444,6 @@ class PostForm extends React.Component {
               ? this.props.currentPost.email
               : this.props.email
           })(<Input />)}
-        </Form.Item>
-        <Form.Item {...formItemLayout} label="Phone Number">
-          {getFieldDecorator("phoneNumber", {
-            rules: [
-              { required: true, message: "Please input your phone number!" }
-            ],
-            initialValue: this.props.currentPost
-              ? this.props.currentPost.phoneNumber
-              : this.props.phoneNumber
-          })(<Input style={{ width: "100%" }} />)}
         </Form.Item>
         <Form.Item {...formItemLayout} label="Website">
           {getFieldDecorator("website", {

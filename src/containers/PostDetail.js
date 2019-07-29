@@ -281,10 +281,6 @@ class PostDetail extends React.Component {
               <Text>{this.props.currentPost.email}</Text>
             </Form.Item>
 
-            <Form.Item {...formItemLayout} label="Phone number">
-              <Text>{this.props.currentPost.phoneNumber}</Text>
-            </Form.Item>
-
             <Form.Item {...formItemLayout} label="Website">
               <a href={this.props.currentPost.website}>
                 {this.props.currentPost.website}
