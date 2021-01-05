@@ -5,7 +5,7 @@
   "dependencies": {
     "@react-firebase/database": "^0.3.10",
     "antd": "^3.7.3",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "firebase": "^5.11.1",
     "npm": "^6.9.0",
     "react": "^16.4.1",
